@@ -1,0 +1,40 @@
+.about {
+  padding-left: 0;
+  padding-right: 0;
+  height: 60vh;
+}
+
+.about-card {
+  display: flex;
+  /* border: 1px solid #e0e0e0; */
+  /* border-radius: 10px; */
+  overflow: hidden;
+  /* margin: 20px; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.about img {
+  max-width: 100%;
+  /* height: auto; */
+  height: 60vh;
+  object-fit: cover;
+}
+
+.about-card .card {
+  height: 100%;
+}
+
+.about-card .card-body {
+  padding: 20px;
+  position: sticky;
+  top: 20px; /* Adjust as needed */
+}
+
+.about-card h5 {
+  margin: 0;
+}
+
+.about-card p {
+  margin: 10px 0;
+}
