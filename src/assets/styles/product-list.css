@@ -1,0 +1,30 @@
+/* Category */
+
+.product-card {
+  border: none;
+  /* border-radius: 10px; */
+  overflow: hidden;
+  margin: 20px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.product-card .card-body {
+  padding: 20px;
+}
+
+.product-card h5 {
+  margin: 0;
+}
+
+.product-card p {
+  margin: 10px 0;
+}
+
+/* / Category */

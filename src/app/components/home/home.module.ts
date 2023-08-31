@@ -4,7 +4,7 @@ import { HeroComponent } from './hero/hero.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
-import { ProductsCarouselComponent } from './products-carousel/products-carousel.component';
+import { ProductsHomeComponent } from './products-home/products-home.component';
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [HeroComponent, WelcomeComponent, HomeComponent, ProductsCarouselComponent],
+  declarations: [HeroComponent, WelcomeComponent, HomeComponent, ProductsHomeComponent],
   imports: [
     CommonModule, RouterModule.forChild(routes)
   ]

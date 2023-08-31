@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ProductsComponent } from './products.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductCategoriesComponent } from './product-categories/product-categories.component';
-import { CategoryComponent } from './category/category.component';
 import { DescriptionComponent } from './description/description.component';
+import { ProductListComponent } from './product-list/product-list.component';
 
 const routes: Routes = [
   {
@@ -12,22 +12,26 @@ const routes: Routes = [
     component: ProductsComponent,
     children: [
       {
-        path: "jabones",
-        component: CategoryComponent,
+        path: "",
+        component: ProductCategoriesComponent
       },
       {
-        path: "jabones/description",
+        path: "soap",
+        component: ProductListComponent,
+      },
+      {
+        path: "soap/description",
         component: DescriptionComponent
       }
     ]
-  }
+  },
 ]
 
 @NgModule({
   declarations: [
     ProductsComponent,
     ProductCategoriesComponent,
-    CategoryComponent,
+    ProductListComponent,
     DescriptionComponent,
   ],
   imports: [
