@@ -5,7 +5,7 @@ import { AdminComponent } from './admin.component';
 import { ShellComponent } from './shell/shell.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CategoriesComponent } from './categories/categories.component';
+import { CategoriesComponent } from './categories-list/categories-list/categories.component';
 
 
 const routes: Routes = [
