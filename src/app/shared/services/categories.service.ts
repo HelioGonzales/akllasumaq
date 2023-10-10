@@ -16,4 +16,9 @@ export class CategoriesService {
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${environment.api}categories`)
   }
+
+  createCategory(category: Category): Observable<Category> {
+    return this.http.post<Category>(`${environment.api}categories`, category)
+  }
+
 }

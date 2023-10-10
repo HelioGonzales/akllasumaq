@@ -4,23 +4,19 @@ import { CategoriesService } from 'src/app/shared/services/categories.service';
 
 @Component({
   selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.css']
+  templateUrl: './categories-list.component.html',
+  styleUrls: ['./categories-list.component.css']
 })
-export class CategoriesComponent implements OnInit {
+export class CategoriesListComponent implements OnInit {
 
   categories: Category[] = []
   constructor(private categoriesSvc: CategoriesService) { }
 
   ngOnInit(): void {
-    this.getAllCategories()
-  }
-
-  getAllCategories() {
     this.categoriesSvc.getCategories().subscribe(res => {
-      console.log(res);
 
       this.categories = res
     })
+
   }
 }

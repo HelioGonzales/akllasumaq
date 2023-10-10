@@ -1,11 +1,16 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 import { AdminComponent } from './admin.component';
 import { ShellComponent } from './shell/shell.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CategoriesComponent } from './categories-list/categories-list/categories.component';
+import { CategoriesListComponent } from './categories/categories-list/categories-list.component';
+import { CategoriesService } from 'src/app/shared/services/categories.service';
+import { CategoriesFormComponent } from './categories/categories-form/categories-form.component';
 
 
 const routes: Routes = [
@@ -19,7 +24,11 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: CategoriesComponent
+        component: CategoriesListComponent
+      },
+      {
+        path: 'categories/form',
+        component: CategoriesFormComponent
       }
     ]
 
@@ -27,10 +36,14 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [AdminComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesComponent],
+  declarations: [AdminComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesListComponent, CategoriesFormComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
-  ]
+    RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule,
+    SweetAlert2Module
+  ],
+  providers: [CategoriesService]
 })
 export class AdminModule { }
