@@ -21,4 +21,7 @@ export class CategoriesService {
     return this.http.post<Category>(`${environment.api}categories`, category)
   }
 
+  deleteCategory(categoryId: string): Observable<any> {
+    return this.http.delete<any>(`${environment.api}categories/${categoryId}`)
+  }
 }

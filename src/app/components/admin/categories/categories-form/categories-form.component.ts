@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { tap, timer } from 'rxjs';
+import Swal from 'sweetalert2';
 import { Category } from 'src/app/shared/models/category';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
 
@@ -36,12 +36,30 @@ export class CategoriesFormComponent implements OnInit {
     }
 
     this.categoriesSvc.createCategory(category).subscribe(res => {
-      // timer(3000).subscribe(res => {
-      //   this.router.navigate(['/admin/categories'])
-      // })
-    })
+      Swal.fire({
+        title: 'Success',
+        text: 'Category created successfully',
+        icon: 'success',
+        showConfirmButton: false, // Remove the confirm button
+        timer: 3000, // Automatically close after 3 seconds (adjust the timer as needed)
+      }).then(() => {
+        this.router.navigate(['/admin/categories'])
+      });
+    },
+      error => {
+        Swal.fire({
+          title: 'Error',
+          text: 'Failed to create category',
+          icon: 'error',
+          showConfirmButton: false, // Remove the confirm button
+          timer: 3000, // Automatically close after 3 seconds (adjust the timer as needed)
+        })
+
+        this.form.reset()
+      })
 
   }
+
 
   get categoryForm() {
     return this.form.controls

@@ -2,7 +2,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { AdminComponent } from './admin.component';
 import { ShellComponent } from './shell/shell.component';
@@ -41,8 +40,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule,
-    SweetAlert2Module
+    ReactiveFormsModule
   ],
   providers: [CategoriesService]
 })
