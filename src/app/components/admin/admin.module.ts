@@ -10,6 +10,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoriesListComponent } from './categories/categories-list/categories-list.component';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
 import { CategoriesFormComponent } from './categories/categories-form/categories-form.component';
+import { ProductsFormComponent } from './products/products-form/products-form.component';
+import { ProductsListComponent } from './products/products-list/products-list.component';
 
 
 const routes: Routes = [
@@ -32,6 +34,18 @@ const routes: Routes = [
       {
         path: 'categories/form/:id',
         component: CategoriesFormComponent
+      },
+      {
+        path: 'products',
+        component: ProductsListComponent
+      },
+      {
+        path: 'products/form',
+        component: ProductsFormComponent
+      },
+      {
+        path: 'products/form/:id',
+        component: ProductsFormComponent
       }
     ]
 
@@ -39,7 +53,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [AdminComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesListComponent, CategoriesFormComponent],
+  declarations: [AdminComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesListComponent, CategoriesFormComponent, ProductsFormComponent, ProductsListComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

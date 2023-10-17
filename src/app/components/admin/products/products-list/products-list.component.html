@@ -1,0 +1,59 @@
+<div class="admin-page">
+  <div class="card" *ngIf="products">
+    <h5 class="card-header">Products</h5>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-12">
+          <h5 class="card-title">List of products</h5>
+          <a routerLink="/admin/products/form" class="btn btn-primary">Add Product</a>
+        </div>
+      </div>
+      <hr>
+      <hr>
+      <div class="row">
+        <div class="col-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Image</th>
+                <th scope="col">Price</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Category</th>
+                <th scope="col">Date Created</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let product of products; let i = index">
+              <tr>
+                <th scope="row">{{ i + 1}}</th>
+                <td>{{ product.name }}</td>
+                <td><img [src]="product.image" alt="image" style="width: 100%"> </td>
+                <td>{{ product.price | currency: 'USD' }}</td>
+                <td>{{ product.stock }}</td>
+                <td>{{ product.category?.name }}</td>
+                <td>{{ product.dateCreated | date }}</td>
+                <td>
+                  <button class="btn me-1 mb-1" (click)="updateProduct(product.id)">Edit</button>
+                  <button class="btn mb-1" (click)="deleteProduct(product.id)">Del</button>
+                </td>
+
+              </tr>
+              <!-- <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
