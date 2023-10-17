@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Category } from 'src/app/shared/models/category';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
 import Swal from 'sweetalert2';
@@ -11,7 +12,7 @@ import Swal from 'sweetalert2';
 export class CategoriesListComponent implements OnInit {
 
   categories: Category[] = []
-  constructor(private categoriesSvc: CategoriesService) { }
+  constructor(private categoriesSvc: CategoriesService, private router: Router) { }
 
   ngOnInit(): void {
     this.getCategories()
@@ -49,6 +50,10 @@ export class CategoriesListComponent implements OnInit {
         return this.getCategories()
       }
     });
+  }
+
+  updateCategory(categoryId: string) {
+    this.router.navigateByUrl(`admin/categories/form/${categoryId}`)
   }
 }
 

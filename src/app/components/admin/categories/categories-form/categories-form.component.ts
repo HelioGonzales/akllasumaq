@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Category } from 'src/app/shared/models/category';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
@@ -13,35 +13,64 @@ import { CategoriesService } from 'src/app/shared/services/categories.service';
 export class CategoriesFormComponent implements OnInit {
 
   form!: FormGroup;
-  isSubmitted: boolean = false
+  isSubmitted = false
+  editMode = false
+  currentCategoryId: string = ''
 
-  constructor(private formBuilder: FormBuilder, private categoriesSvc: CategoriesService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private categoriesSvc: CategoriesService, private router: Router, private activedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       icon: ['', Validators.required]
     })
+
+    this._checkEditMode()
   }
 
   onSubmit() {
-
     this.isSubmitted = true
 
     if (!this.form.valid) return
 
     const category: Category = {
+      _id: this.currentCategoryId,
       name: this.form.controls['name'].value,
       icon: this.form.controls['icon'].value,
     }
 
+    if (this.editMode) {
+      this._updateCategory(category)
+    } else {
+      this._addCategory(category)
+
+    }
+  }
+
+  private _checkEditMode() {
+    this.activedRoute.params.subscribe((res) => {
+      if (res['id']) {
+        this.editMode = true
+        this.currentCategoryId = res['id']
+        this.categoriesSvc.getCategory(res['id']).subscribe(category => {
+          this.categoryForm['name'].setValue(category['name']);
+          this.categoryForm['icon'].setValue(category['icon']);
+        })
+      } else {
+        this.editMode = false
+      }
+
+    })
+  }
+
+  private _addCategory(category: Category) {
     this.categoriesSvc.createCategory(category).subscribe(res => {
       Swal.fire({
         title: 'Success',
         text: 'Category created successfully',
         icon: 'success',
-        showConfirmButton: false, // Remove the confirm button
-        timer: 3000, // Automatically close after 3 seconds (adjust the timer as needed)
+        showConfirmButton: false,
+        timer: 3000,
       }).then(() => {
         this.router.navigate(['/admin/categories'])
       });
@@ -51,13 +80,37 @@ export class CategoriesFormComponent implements OnInit {
           title: 'Error',
           text: 'Failed to create category',
           icon: 'error',
-          showConfirmButton: false, // Remove the confirm button
-          timer: 3000, // Automatically close after 3 seconds (adjust the timer as needed)
+          showConfirmButton: false,
+          timer: 3000,
         })
 
         this.form.reset()
       })
+  }
 
+  private _updateCategory(category: Category) {
+    this.categoriesSvc.updateCategory(category).subscribe(res => {
+      Swal.fire({
+        title: 'Success',
+        text: 'Category updated successfully',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 3000,
+      }).then(() => {
+        this.router.navigate(['/admin/categories'])
+      });
+    },
+      error => {
+        Swal.fire({
+          title: 'Error',
+          text: 'Failed to update category',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 3000,
+        })
+
+        this.form.reset()
+      })
   }
 
 

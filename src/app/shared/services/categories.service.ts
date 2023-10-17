@@ -9,19 +9,27 @@ import { Observable } from 'rxjs';
 })
 export class CategoriesService {
 
+  apiURLCategories = environment.api
+
   constructor(private http: HttpClient) { }
 
-
-
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${environment.api}categories`)
+    return this.http.get<Category[]>(`${this.apiURLCategories}categories`)
+  }
+
+  getCategory(categoryId: string): Observable<Category> {
+    return this.http.get<Category>(`${this.apiURLCategories}categories/${categoryId}`)
   }
 
   createCategory(category: Category): Observable<Category> {
-    return this.http.post<Category>(`${environment.api}categories`, category)
+    return this.http.post<Category>(`${this.apiURLCategories}categories`, category)
+  }
+
+  updateCategory(category: Category): Observable<Category> {
+    return this.http.put<Category>(`${this.apiURLCategories}categories/${category._id}`, category)
   }
 
   deleteCategory(categoryId: string): Observable<any> {
-    return this.http.delete<any>(`${environment.api}categories/${categoryId}`)
+    return this.http.delete<any>(`${this.apiURLCategories}categories/${categoryId}`)
   }
 }

@@ -1,11 +1,11 @@
 <div class="admin-page">
   <div class="card">
-    <h5 class="card-header">Add Category</h5>
+    <h5 class="card-header" [innerHTML]="editMode?'Edit Caregory':'Add Category'"></h5>
     <div class="card-body">
       <div class="row mb-3">
         <div class="col-12">
-          <h5 class="card-title">You can add category here</h5>
-          <a (click)="onSubmit()" class="btn btn-primary me-3">Create</a>
+          <h5 class="card-title" [innerHTML]="editMode?'You can edit category here':'You can add category here'"></h5>
+          <a (click)="onSubmit()" class="btn btn-primary me-3" [innerHTML]="editMode?'Edit':'Create' "></a>
           <a routerLink="" class=" btn btn-primary">Cancel</a>
         </div>
       </div>

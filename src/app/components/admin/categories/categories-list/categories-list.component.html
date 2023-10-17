@@ -27,8 +27,8 @@
                 <td>{{ category._id }}</td>
                 <td>{{ category.name }}</td>
                 <td>
-                  <button class="btn me-1 mb-1">Edit</button>
-                  <button class="btn" (click)="deleteCategory(category._id)">Del</button>
+                  <button class="btn me-1 mb-1" (click)="updateCategory(category._id)">Edit</button>
+                  <button class="btn mb-1" (click)="deleteCategory(category._id)">Del</button>
                 </td>
 
               </tr>
