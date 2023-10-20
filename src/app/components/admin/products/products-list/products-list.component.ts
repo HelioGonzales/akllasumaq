@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Product } from 'src/app/shared/models/product';
 import { ProductsService } from 'src/app/shared/services/products.service';
 
@@ -10,7 +11,7 @@ import { ProductsService } from 'src/app/shared/services/products.service';
 export class ProductsListComponent {
   products: Product[] = []
 
-  constructor(private productsSvc: ProductsService) {
+  constructor(private productsSvc: ProductsService, private router: Router) {
     this._getProducts()
   }
 
@@ -20,6 +21,8 @@ export class ProductsListComponent {
     })
   }
 
-  updateProduct(categoryId: any) { }
+  updateProduct(productId: any) {
+    this.router.navigateByUrl(`admin/products/form/${productId}`)
+  }
   deleteProduct(categoryId: any) { }
 }

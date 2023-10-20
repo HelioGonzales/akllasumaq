@@ -17,7 +17,7 @@ export class CategoriesFormComponent implements OnInit {
   editMode = false
   currentCategoryId: string = ''
 
-  constructor(private formBuilder: FormBuilder, private categoriesSvc: CategoriesService, private router: Router, private activedRoute: ActivatedRoute) { }
+  constructor(private formBuilder: FormBuilder, private categoriesSvc: CategoriesService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -48,7 +48,7 @@ export class CategoriesFormComponent implements OnInit {
   }
 
   private _checkEditMode() {
-    this.activedRoute.params.subscribe((res) => {
+    this.activatedRoute.params.subscribe((res) => {
       if (res['id']) {
         this.editMode = true
         this.currentCategoryId = res['id']
