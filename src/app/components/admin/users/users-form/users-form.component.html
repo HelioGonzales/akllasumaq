@@ -1,0 +1,109 @@
+<div class="admin-page">
+  <div class="card">
+    <h5 class="card-header" [innerHTML]="editMode?'Edit User':'Add User'"></h5>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-12">
+          <h5 class="card-title" [innerHTML]="editMode?'You can edit user here':'You can add user here'"></h5>
+          <a (click)="onSubmit()" class="btn btn-primary me-3" [innerHTML]="editMode?'Edit':'Create' "></a>
+          <a routerLink="" class=" btn btn-primary">Cancel</a>
+        </div>
+      </div>
+      <hr>
+      <hr>
+      <div class="row">
+        <div class="col-12">
+          <form [formGroup]="form" class="row g-3">
+            <div class="col-md-6">
+              <label for="inputEmail4" class="form-label">Name</label>
+              <input formControlName="name" type="text" class="form-control" id="inputEmail4" required>
+
+              <div *ngIf="userForm['name'].invalid && isSubmitted" class="text-danger">
+                Name is required.
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">Email</label>
+              <input formControlName="email" type="text" class="form-control" id="inputPassword4">
+
+              <div *ngIf="userForm['email'].invalid && isSubmitted" class="text-danger">
+                Email is required.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">Password</label>
+              <input formControlName="password" type="password" class="form-control" id="inputPassword4">
+
+              <div *ngIf="userForm['password'].invalid && isSubmitted" class="text-danger">
+                Password is required.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">Phone</label>
+              <input formControlName="phone" type="password" class="form-control" id="inputPassword4">
+
+              <div *ngIf="userForm['phone'].invalid && isSubmitted" class="text-danger">
+                Phone is required.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-check form-switch">
+                <input formControlName="isAdmin" class="form-check-input" type="checkbox" role="switch"
+                  id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Is Admin</label>
+              </div>
+              <div *ngIf="userForm['isAdmin'].invalid && isSubmitted" class="text-danger">
+                Admin is required.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">Street</label>
+              <input formControlName="street" type="password" class="form-control" id="inputPassword4">
+
+              <div *ngIf="userForm['street'].invalid && isSubmitted" class="text-danger">
+                Street is required.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">Apartment</label>
+              <input formControlName="apartment" type="password" class="form-control" id="inputPassword4">
+
+              <div *ngIf="userForm['apartment'].invalid && isSubmitted" class="text-danger">
+                Apartment is required.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">Zip Code</label>
+              <input formControlName="zip" type="password" class="form-control" id="inputPassword4">
+
+              <div *ngIf="userForm['zip'].invalid && isSubmitted" class="text-danger">
+                Zip Code is required.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">City</label>
+              <input formControlName="city" type="password" class="form-control" id="inputPassword4">
+
+              <div *ngIf="userForm['city'].invalid && isSubmitted" class="text-danger">
+                City is required.
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="inputState" class="form-label">Country</label>
+              <select formControlName="city" id="inputState" class="form-select">
+                <option selected>Choose...</option>
+                <!-- <option *ngFor="let category of categories" [value]="category._id">{{ category.name}}</option> -->
+              </select>
+
+              <div *ngIf="userForm['country'].invalid && isSubmitted" class="text-danger">
+                Country is required.
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

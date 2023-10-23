@@ -1,0 +1,44 @@
+<div class="admin-page">
+  <div class="card" *ngIf="users">
+    <h5 class="card-header">Users</h5>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-12">
+          <h5 class="card-title">List of users</h5>
+          <a routerLink="/admin/users/form" class="btn btn-primary">Add Users</a>
+        </div>
+      </div>
+      <hr>
+      <hr>
+      <div class="row">
+        <div class="col-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Is Admin</th>
+                <th scope="col">Country</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let user of users; let i = index">
+              <tr>
+                <th scope="row">{{ i + 1}}</th>
+                <td>{{ user.name }}</td>
+                <td>
+                  <span *ngIf="user.isAdmin" class="badge text-bg-success">Yes</span>
+                  <span *ngIf="!user.isAdmin" class="badge text-bg-success">No</span>
+                </td>
+                <td>{{ user.country }}</td>
+                <td>
+                  <button class="btn me-1 mb-1" (click)="updateUser(user._id)">Edit</button>
+                  <button class="btn mb-1" (click)="deleteUser(user._id)">Del</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
