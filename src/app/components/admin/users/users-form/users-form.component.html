@@ -6,7 +6,7 @@
         <div class="col-12">
           <h5 class="card-title" [innerHTML]="editMode?'You can edit user here':'You can add user here'"></h5>
           <a (click)="onSubmit()" class="btn btn-primary me-3" [innerHTML]="editMode?'Edit':'Create' "></a>
-          <a routerLink="" class=" btn btn-primary">Cancel</a>
+          <a routerLink="/admin" class=" btn btn-primary">Cancel</a>
         </div>
       </div>
       <hr>
@@ -28,7 +28,8 @@
               <input formControlName="email" type="text" class="form-control" id="inputPassword4">
 
               <div *ngIf="userForm['email'].invalid && isSubmitted" class="text-danger">
-                Email is required.
+                <span *ngIf="userForm['email'].errors?.['required']">Email is required.</span>
+                <span *ngIf="userForm['email'].errors?.['email']">Email is invalid.</span>
               </div>
             </div>
             <div class="col-md-6">
@@ -90,17 +91,17 @@
               </div>
             </div>
 
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
               <label for="inputState" class="form-label">Country</label>
               <select formControlName="city" id="inputState" class="form-select">
                 <option selected>Choose...</option>
-                <!-- <option *ngFor="let category of categories" [value]="category._id">{{ category.name}}</option> -->
+                <option *ngFor="let category of categories" [value]="category._id">{{ category.name}}</option>
               </select>
 
               <div *ngIf="userForm['country'].invalid && isSubmitted" class="text-danger">
                 Country is required.
               </div>
-            </div>
+            </div> -->
 
           </form>
         </div>

@@ -6,7 +6,7 @@
         <div class="col-12">
           <h5 class="card-title" [innerHTML]="editMode?'You can edit product here':'You can add product here'"></h5>
           <a (click)="onSubmit()" class="btn btn-primary me-3" [innerHTML]="editMode?'Edit':'Create' "></a>
-          <a routerLink="" class=" btn btn-primary">Cancel</a>
+          <a routerLink="/admin" class=" btn btn-primary">Cancel</a>
         </div>
       </div>
       <hr>
