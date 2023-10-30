@@ -14,6 +14,8 @@ import { ProductsFormComponent } from './products/products-form/products-form.co
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UsersFormComponent } from './users/users-form/users-form.component';
+import { OrdersListComponent } from './orders/orders-list/orders-list.component';
+import { OrdersDetailComponent } from './orders/orders-detail/orders-detail.component';
 
 
 const routes: Routes = [
@@ -60,6 +62,14 @@ const routes: Routes = [
       {
         path: 'users/form/:id',
         component: UsersFormComponent
+      },
+      {
+        path: 'orders',
+        component: OrdersListComponent
+      },
+      {
+        path: 'orders/:id',
+        component: OrdersDetailComponent
       }
     ]
 
@@ -67,7 +77,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [AdminComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesListComponent, CategoriesFormComponent, ProductsFormComponent, ProductsListComponent, UsersListComponent, UsersFormComponent],
+  declarations: [AdminComponent, ShellComponent, SidebarComponent, DashboardComponent, CategoriesListComponent, CategoriesFormComponent, ProductsFormComponent, ProductsListComponent, UsersListComponent, UsersFormComponent, OrdersListComponent, OrdersDetailComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
