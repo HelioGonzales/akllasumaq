@@ -23,12 +23,12 @@
                 <td>{{ order.totalPrice }}</td>
                 <td>{{ order.dateOrdered | date: 'short' }}</td>
                 <td>
-                  <span class="badge text-bg-success"
+                  <span [ngClass]="'badge text-bg-'+orderStatus[parseStatusIndex(order.status)].color"
                     [innerHTML]="orderStatus[parseStatusIndex(order.status)].label"></span>
                 </td>
                 <td>
-                  <button class="btn me-1 mb-1" (click)="showOrder(order.id!)">Show</button>
-                  <button class="btn mb-1" (click)="deleteOrder(order.id!)">Del</button>
+                  <button class="btn me-1 mb-1" (click)="showOrder(order._id!)">Show</button>
+                  <button class="btn mb-1" (click)="deleteOrder(order._id!)">Del</button>
                 </td>
 
               </tr>

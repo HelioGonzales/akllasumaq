@@ -1,29 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Order } from 'src/app/shared/models/order';
+import { ORDER_STATUS } from 'src/app/shared/order.constants';
 import { OrdersService } from 'src/app/shared/services/orders.service';
-
-const ORDER_STATUS = [
-  {
-    label: 'Pending',
-    color: 'primary'
-  },
-  {
-    label: 'Process',
-    color: 'warning'
-  },
-  {
-    label: 'Shipped',
-    color: 'info'
-  },
-  {
-    label: 'Delivered',
-    color: 'success'
-  },
-  {
-    label: 'Failed',
-    color: 'danger'
-  }
-];
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-orders-list',
@@ -36,7 +16,7 @@ export class OrdersListComponent implements OnInit {
 
 
 
-  constructor(private ordersSvc: OrdersService) { }
+  constructor(private ordersSvc: OrdersService, private router: Router) { }
 
   ngOnInit(): void {
     this._getOrders()
@@ -46,13 +26,43 @@ export class OrdersListComponent implements OnInit {
   }
 
 
-  showOrder(orderId: string) { }
-  deleteOrder(orderId: string) { }
+  showOrder(orderId: string) {
+    this.router.navigateByUrl(`admin/orders/${orderId}`)
+  }
+
+  deleteOrder(orderId: string) {
+    Swal.fire({
+      title: 'Delete Order',
+      text: `Are you sure you want to delete the order"?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ordersSvc.deleteOrder(orderId).subscribe(res => {
+          this._getOrders()
+        },
+          error => {
+            Swal.fire({
+              title: 'Error',
+              text: 'Failed to delete order',
+              icon: 'error',
+              showConfirmButton: false, // Remove the confirm button
+              timer: 3000, // Automatically close after 3 seconds (adjust the timer as needed)
+            })
+          })
+      } else if (result.isDismissed) {
+        return this._getOrders()
+      }
+    });
+  }
 
   parseStatusIndex(status: any): number {
     const index = +status;
     return !isNaN(index) ? index : -1; // Return -1 if the conversion fails
   }
+
 
   private _getOrders() {
     this.ordersSvc.getOrders().subscribe(res => {

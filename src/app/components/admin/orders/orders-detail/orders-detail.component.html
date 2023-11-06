@@ -1,1 +1,130 @@
-<p>orders-detail works!</p>
+<div class="admin-page">
+  <div class="card" *ngIf="orderDetails">
+    <h5 class="card-header" [innerHTML]="'View Order'"></h5>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-12">
+          <h5 class="card-title" [innerHTML]="'You can update the status here'"></h5>
+
+        </div>
+      </div>
+      <hr>
+      <hr>
+      <div class="row">
+        <div class="col-12">
+
+          <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  Order details
+                </button>
+              </h2>
+              <div id="flush-collapseOne" class="accordion-collapse collapse mt-3"
+                data-bs-parent="#accordionFlushExample">
+                <div class="accordion">
+                  <div class="row">
+                    <div class="form-group col-md-4">
+                      <label for="orderId">Order ID:</label>
+                      <p id="orderId">{{orderDetails._id}}</p>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="orderId">Order Date:</label>
+                      <p id="orderId">{{orderDetails.dateOrdered | date: 'short'}}</p>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="orderId">Order Status:</label>
+                      <select class="form-select" (change)="onStatusChange($event)" [(ngModel)]="statusChanged">
+                        <option *ngFor="let stat of orderStatus; let i = index" [value]="i">
+                          {{stat.label}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group col-4">
+                      <label for="orderId">Order Total Price:</label>
+                      <p id="orderId">{{orderDetails.totalPrice | currency}}</p>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                  Order Items
+                </button>
+              </h2>
+              <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Subtotal</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of orderDetails.orderItems; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{item.product?.name}}</td>
+                        <td>{{item.product?.brand}}</td>
+                        <td>{{item.product?.category?.name}}</td>
+                        <td>{{item.product?.price | currency }}</td>
+                        <td>{{item.quantity }}</td>
+                        <td>
+                          {{ calculateTotalPrice(item) | currency }}
+                        </td>
+
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <td>Total: {{orderDetails.totalPrice | currency}}</td>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                  Order Address
+                </button>
+              </h2>
+              <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                  <div class="row">
+                    <div class="form-group col-md-4">
+                      <label for="orderId">Order Address:</label>
+                      <p id="orderId">
+                        {{orderDetails.shippingAddress1}} <br>
+                        {{orderDetails.shippingAddress2}}
+                        {{orderDetails.zip}} {{orderDetails.city}} <br>
+                        {{orderDetails.country}}
+                      </p>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="orderId">Customer Name:</label>
+                      <p id="orderId">{{orderDetails.user?.name}}</p>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="orderId">Customer Email & Phone:</label>
+                      <p id="orderId">{{orderDetails.phone}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
