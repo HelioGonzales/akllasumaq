@@ -1,0 +1,32 @@
+<section class="section">
+  <div class="container">
+    <form [formGroup]="form" class="row">
+      <div class="col-md-4 offset-md-4">
+        <div class="col-md-12">
+          <label for="inputEmail4" class="form-label">Email</label>
+          <input formControlName="email" type="email" class="form-control" id="inputEmail4">
+
+          <div *ngIf="loginForm['email'].invalid && isSubmitted" class="text-danger">
+            <span *ngIf="loginForm['email'].errors?.['required']">Email is required.</span>
+            <span *ngIf="loginForm['email'].errors?.['email']">Email is invalid.</span>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <label for="inputPassword4" class="form-label">Password</label>
+          <input formControlName="passwordHash" type="password" class="form-control" id="inputPassword4">
+
+          <div *ngIf="loginForm['passwordHash'].invalid && isSubmitted" class="text-danger">
+            Password is required.
+          </div>
+        </div>
+        <div class="col-12 mt-3">
+          <button (click)="onSubmit()" type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+
+        <div class="col-md-12">
+          <small *ngIf="isSubmitted && authError" class="text-danger">{{authMessage}}</small>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
