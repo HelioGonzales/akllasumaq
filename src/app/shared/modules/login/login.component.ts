@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LocalstorageService } from '../../services/localstorage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   authError = false
   authMessage = 'Email or Password are wrong'
 
-  constructor(private authSvc: AuthService, private formBuilder: FormBuilder, private localStorageSvc: LocalstorageService) { }
+  constructor(private authSvc: AuthService, private formBuilder: FormBuilder, private localStorageSvc: LocalstorageService, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
     this.authSvc.login(this.loginForm['email'].value, this.loginForm['passwordHash'].value).subscribe(user => {
       this.authError = false
       this.localStorageSvc.setToken(user.token)
+      this.router.navigateByUrl('admin')
 
     }, (err: HttpErrorResponse) => {
       console.log(err);

@@ -16,12 +16,14 @@ import { UsersListComponent } from './users/users-list/users-list.component';
 import { UsersFormComponent } from './users/users-form/users-form.component';
 import { OrdersListComponent } from './orders/orders-list/orders-list.component';
 import { OrdersDetailComponent } from './orders/orders-detail/orders-detail.component';
+import { authGuardGuard } from 'src/app/shared/services/auth-guard.guard';
 
 
 const routes: Routes = [
   {
     path: '',
     component: ShellComponent,
+    canActivate: [authGuardGuard],
     children: [
       {
         path: 'dashboard',
