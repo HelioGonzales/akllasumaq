@@ -33,4 +33,12 @@ export class OrdersService {
   deleteOrder(orderId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiURLOrders}orders/${orderId}`)
   }
+
+  getTotalOrders(): Observable<any> {
+    return this.http.get<any>(`${this.apiURLOrders}orders/get/count`)
+  }
+
+  getTotalSales(): Observable<any> {
+    return this.http.get<any>(`${this.apiURLOrders}orders/get/totalsales`)
+  }
 }

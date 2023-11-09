@@ -1,1 +1,35 @@
-<p>dashboard works!</p>
+<div class="row ms-3">
+  <div class="col-md-3 mb-3 me-3">
+    <div class="card" style="width: 18rem;">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Orders</li>
+        <li class="list-group-item">{{ totalOrders?.orderCount}}</li>
+      </ul>
+      <div class="card-footer">
+        Orders
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 mb-3 me-3">
+    <div class="card" style="width: 18rem;">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Products</li>
+        <li class="list-group-item">{{ totalProducts?.productCount }}</li>
+      </ul>
+      <div class="card-footer">
+        Products
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 mb-3 me-3">
+    <div class="card" style="width: 18rem;">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Total Sales</li>
+        <li class="list-group-item">{{ totalSales?.totalsales[0].totalsales }}</li>
+      </ul>
+      <div class="card-footer">
+        Total Sales
+      </div>
+    </div>
+  </div>
+</div>
