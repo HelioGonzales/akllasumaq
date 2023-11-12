@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { Product } from 'src/app/shared/models/product';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import Swal from 'sweetalert2';
@@ -9,15 +10,20 @@ import Swal from 'sweetalert2';
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.css']
 })
-export class ProductsListComponent {
+export class ProductsListComponent implements OnInit, OnDestroy {
   products: Product[] = []
+  endsSubs$ = new Subject<void>()
 
   constructor(private productsSvc: ProductsService, private router: Router) {
+
+  }
+
+  ngOnInit(): void {
     this._getProducts()
   }
 
   private _getProducts() {
-    this.productsSvc.getProducts().subscribe(res => {
+    this.productsSvc.getProducts().pipe(takeUntil(this.endsSubs$)).subscribe(res => {
       this.products = res
     })
   }
@@ -36,7 +42,7 @@ export class ProductsListComponent {
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.productsSvc.deleteProduct(productId).subscribe(res => {
+        this.productsSvc.deleteProduct(productId).pipe(takeUntil(this.endsSubs$)).subscribe(res => {
           this._getProducts()
         },
           error => {
@@ -54,7 +60,9 @@ export class ProductsListComponent {
     });
   }
 
+  ngOnDestroy(): void {
+    this.endsSubs$.next()
+    this.endsSubs$.complete()
 
-
-
+  }
 }

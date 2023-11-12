@@ -25,6 +25,12 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./shared/modules/login/login.module').then(m => m.LoginModule)
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+
   }
 ];
 

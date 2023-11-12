@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { User } from 'src/app/shared/models/user';
 import { UsersService } from 'src/app/shared/services/users.service';
 import Swal from 'sweetalert2';
@@ -9,8 +10,9 @@ import Swal from 'sweetalert2';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.css']
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, OnDestroy {
   users: User[] = []
+  endSubs$ = new Subject<void>()
 
   constructor(private usersSvc: UsersService, private router: Router) { }
 
@@ -31,7 +33,7 @@ export class UsersListComponent implements OnInit {
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usersSvc.deleteUser(userId).subscribe(res => {
+        this.usersSvc.deleteUser(userId).pipe(takeUntil(this.endSubs$)).subscribe(res => {
           this._getUsers()
         },
           error => {
@@ -50,8 +52,13 @@ export class UsersListComponent implements OnInit {
   }
 
   private _getUsers() {
-    this.usersSvc.getUsers().subscribe(res => {
+    this.usersSvc.getUsers().pipe(takeUntil(this.endSubs$)).subscribe(res => {
       this.users = res
     })
+  }
+
+  ngOnDestroy(): void {
+    this.endSubs$.next()
+    this.endSubs$.complete()
   }
 }

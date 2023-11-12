@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
 import Swal from 'sweetalert2';
@@ -9,9 +10,10 @@ import Swal from 'sweetalert2';
   templateUrl: './categories-list.component.html',
   styleUrls: ['./categories-list.component.css']
 })
-export class CategoriesListComponent implements OnInit {
-
+export class CategoriesListComponent implements OnInit, OnDestroy {
   categories: Category[] = []
+  endSubs$ = new Subject<void>()
+
   constructor(private categoriesSvc: CategoriesService, private router: Router) { }
 
   ngOnInit(): void {
@@ -19,7 +21,7 @@ export class CategoriesListComponent implements OnInit {
   }
 
   getCategories() {
-    this.categoriesSvc.getCategories().subscribe(res => {
+    this.categoriesSvc.getCategories().pipe(takeUntil(this.endSubs$)).subscribe(res => {
       this.categories = res
     })
   }
@@ -34,7 +36,7 @@ export class CategoriesListComponent implements OnInit {
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoriesSvc.deleteCategory(categoryId).subscribe(res => {
+        this.categoriesSvc.deleteCategory(categoryId).pipe(takeUntil(this.endSubs$)).subscribe(res => {
           this.getCategories()
         },
           error => {
@@ -54,6 +56,11 @@ export class CategoriesListComponent implements OnInit {
 
   updateCategory(categoryId: string) {
     this.router.navigateByUrl(`admin/categories/form/${categoryId}`)
+  }
+
+  ngOnDestroy(): void {
+    this.endSubs$.next()
+    this.endSubs$.complete()
   }
 }
 

@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Category } from 'src/app/shared/models/category';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-categories-form',
   templateUrl: './categories-form.component.html',
   styleUrls: ['./categories-form.component.css']
 })
-export class CategoriesFormComponent implements OnInit {
-
+export class CategoriesFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   isSubmitted = false
   editMode = false
   currentCategoryId: string = ''
+  endSubs$ = new Subject<void>()
 
   constructor(private formBuilder: FormBuilder, private categoriesSvc: CategoriesService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -52,7 +53,7 @@ export class CategoriesFormComponent implements OnInit {
       if (res['id']) {
         this.editMode = true
         this.currentCategoryId = res['id']
-        this.categoriesSvc.getCategory(res['id']).subscribe(category => {
+        this.categoriesSvc.getCategory(res['id']).pipe(takeUntil(this.endSubs$)).subscribe(category => {
           this.categoryForm['name'].setValue(category['name']);
           this.categoryForm['icon'].setValue(category['icon']);
         })
@@ -64,7 +65,7 @@ export class CategoriesFormComponent implements OnInit {
   }
 
   private _addCategory(category: Category) {
-    this.categoriesSvc.createCategory(category).subscribe(res => {
+    this.categoriesSvc.createCategory(category).pipe(takeUntil(this.endSubs$)).subscribe(res => {
       Swal.fire({
         title: 'Success',
         text: 'Category created successfully',
@@ -89,7 +90,7 @@ export class CategoriesFormComponent implements OnInit {
   }
 
   private _updateCategory(category: Category) {
-    this.categoriesSvc.updateCategory(category).subscribe(res => {
+    this.categoriesSvc.updateCategory(category).pipe(takeUntil(this.endSubs$)).subscribe(res => {
       Swal.fire({
         title: 'Success',
         text: 'Category updated successfully',
@@ -116,5 +117,10 @@ export class CategoriesFormComponent implements OnInit {
 
   get categoryForm() {
     return this.form.controls
+  }
+
+  ngOnDestroy(): void {
+    this.endSubs$.next()
+    this.endSubs$.complete()
   }
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { Order } from 'src/app/shared/models/order';
 import { ORDER_STATUS } from 'src/app/shared/order.constants';
 import { OrdersService } from 'src/app/shared/services/orders.service';
@@ -10,12 +11,12 @@ import Swal from 'sweetalert2';
   templateUrl: './orders-detail.component.html',
   styleUrls: ['./orders-detail.component.css']
 })
-export class OrdersDetailComponent implements OnInit {
+export class OrdersDetailComponent implements OnInit, OnDestroy {
   orderId!: string
   orderDetails!: Order
   orderStatus = ORDER_STATUS
   statusChanged: any
-
+  endSubs$ = new Subject<void>()
 
   constructor(private ordersSvc: OrdersService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
@@ -30,7 +31,7 @@ export class OrdersDetailComponent implements OnInit {
   }
 
   private _getOrder(orderId: string) {
-    this.ordersSvc.getOrder(orderId).subscribe(orderDetails => {
+    this.ordersSvc.getOrder(orderId).pipe(takeUntil(this.endSubs$)).subscribe(orderDetails => {
       this.orderDetails = orderDetails
       this.statusChanged = this.orderDetails.status
       console.log(this.statusChanged);
@@ -47,7 +48,7 @@ export class OrdersDetailComponent implements OnInit {
 
     this.ordersSvc.updateOrder({
       status: event.target.value
-    }, this.orderId).subscribe(res => {
+    }, this.orderId).pipe(takeUntil(this.endSubs$)).subscribe(res => {
       Swal.fire({
         title: 'Success',
         text: 'Order updated successfully',
@@ -80,6 +81,11 @@ export class OrdersDetailComponent implements OnInit {
   parseStatusIndex(status: any): number {
     const index = +status;
     return !isNaN(index) ? index : -1; // Return -1 if the conversion fails
+  }
+
+  ngOnDestroy(): void {
+    this.endSubs$.next()
+    this.endSubs$.complete()
   }
 
 }

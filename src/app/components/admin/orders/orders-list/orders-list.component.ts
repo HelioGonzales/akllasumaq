@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { Order } from 'src/app/shared/models/order';
 import { ORDER_STATUS } from 'src/app/shared/order.constants';
 import { OrdersService } from 'src/app/shared/services/orders.service';
@@ -10,9 +11,10 @@ import Swal from 'sweetalert2';
   templateUrl: './orders-list.component.html',
   styleUrls: ['./orders-list.component.css']
 })
-export class OrdersListComponent implements OnInit {
+export class OrdersListComponent implements OnInit, OnDestroy {
   orders: Order[] = []
   orderStatus = ORDER_STATUS
+  endSubs$ = new Subject<void>()
 
 
 
@@ -20,9 +22,6 @@ export class OrdersListComponent implements OnInit {
 
   ngOnInit(): void {
     this._getOrders()
-
-
-
   }
 
 
@@ -40,7 +39,7 @@ export class OrdersListComponent implements OnInit {
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.ordersSvc.deleteOrder(orderId).subscribe(res => {
+        this.ordersSvc.deleteOrder(orderId).pipe(takeUntil(this.endSubs$)).subscribe(res => {
           this._getOrders()
         },
           error => {
@@ -65,10 +64,13 @@ export class OrdersListComponent implements OnInit {
 
 
   private _getOrders() {
-    this.ordersSvc.getOrders().subscribe(res => {
+    this.ordersSvc.getOrders().pipe(takeUntil(this.endSubs$)).subscribe(res => {
       this.orders = res
     })
   }
 
-
+  ngOnDestroy(): void {
+    this.endSubs$.next()
+    this.endSubs$.complete()
+  }
 }

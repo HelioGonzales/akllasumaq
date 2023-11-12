@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { User } from 'src/app/shared/models/user';
 import { UsersService } from 'src/app/shared/services/users.service';
 import Swal from 'sweetalert2';
@@ -10,11 +11,12 @@ import Swal from 'sweetalert2';
   templateUrl: './users-form.component.html',
   styleUrls: ['./users-form.component.css']
 })
-export class UsersFormComponent implements OnInit {
+export class UsersFormComponent implements OnInit, OnDestroy {
   editMode = false
   isSubmitted = false
   form!: FormGroup
   currentUserId: string = ''
+  endSubs$ = new Subject<void>()
 
   constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private usersSvc: UsersService, private router: Router) { }
 
@@ -90,7 +92,7 @@ export class UsersFormComponent implements OnInit {
   }
 
   private _addUser(user: User) {
-    this.usersSvc.createUser(user).subscribe(res => {
+    this.usersSvc.createUser(user).pipe(takeUntil(this.endSubs$)).subscribe(res => {
       Swal.fire({
         title: 'Success',
         text: 'User created successfully',
@@ -115,7 +117,7 @@ export class UsersFormComponent implements OnInit {
   }
 
   private _updateUser(user: User) {
-    this.usersSvc.updateUser(user).subscribe(res => {
+    this.usersSvc.updateUser(user).pipe(takeUntil(this.endSubs$)).subscribe(res => {
       Swal.fire({
         title: 'Success',
         text: 'User updated successfully',
@@ -141,5 +143,10 @@ export class UsersFormComponent implements OnInit {
 
   get userForm() {
     return this.form.controls
+  }
+
+  ngOnDestroy(): void {
+    this.endSubs$.next()
+    this.endSubs$.complete()
   }
 }

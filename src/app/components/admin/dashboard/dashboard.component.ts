@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { OrdersService } from 'src/app/shared/services/orders.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 
@@ -7,11 +8,11 @@ import { ProductsService } from 'src/app/shared/services/products.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
-
+export class DashboardComponent implements OnInit, OnDestroy {
   totalProducts!: any
   totalOrders!: any
   totalSales!: any
+  endSubs$ = new Subject<void>()
 
   constructor(private productsSvc: ProductsService, private ordersSvc: OrdersService) { }
 
@@ -22,23 +23,26 @@ export class DashboardComponent implements OnInit {
   }
 
   private _getTotalProducts() {
-    this.productsSvc.getTotalProducts().subscribe(res => {
+    this.productsSvc.getTotalProducts().pipe(takeUntil(this.endSubs$)).subscribe(res => {
       this.totalProducts = res
     })
   }
 
   private _getTotalOrders() {
-    this.ordersSvc.getTotalOrders().subscribe(res => {
+    this.ordersSvc.getTotalOrders().pipe(takeUntil(this.endSubs$)).subscribe(res => {
       this.totalOrders = res
     })
   }
 
   private _getTotalSales() {
-    this.ordersSvc.getTotalSales().subscribe(res => {
+    this.ordersSvc.getTotalSales().pipe(takeUntil(this.endSubs$)).subscribe(res => {
       this.totalSales = res
-      console.log(this.totalSales.totalsales[0].totalsales);
-
     })
+  }
+
+  ngOnDestroy(): void {
+    this.endSubs$.next()
+    this.endSubs$.complete()
   }
 
 }

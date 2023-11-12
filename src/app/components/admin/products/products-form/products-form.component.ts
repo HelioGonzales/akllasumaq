@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
@@ -11,13 +12,14 @@ import Swal from 'sweetalert2';
   templateUrl: './products-form.component.html',
   styleUrls: ['./products-form.component.css']
 })
-export class ProductsFormComponent implements OnInit {
+export class ProductsFormComponent implements OnInit, OnDestroy {
   editMode = false
   form!: FormGroup
   isSubmitted = false
   categories: Category[] = []
   imageDisplay!: string | ArrayBuffer
   currentProductId: string = ''
+  endSubs$ = new Subject<void>()
 
   constructor(private formBuilder: FormBuilder, private categoriesSvc: CategoriesService, private router: Router, private productsSvc: ProductsService, private activatedRoute: ActivatedRoute) { }
 
@@ -77,13 +79,13 @@ export class ProductsFormComponent implements OnInit {
   }
 
   private _getCategories() {
-    this.categoriesSvc.getCategories().subscribe(res => {
+    this.categoriesSvc.getCategories().pipe(takeUntil(this.endSubs$)).subscribe(res => {
       this.categories = res
     })
   }
 
   private _addProduct(productFormData: FormData) {
-    this.productsSvc.createProduct(productFormData).subscribe(res => {
+    this.productsSvc.createProduct(productFormData).pipe(takeUntil(this.endSubs$)).subscribe(res => {
       Swal.fire({
         title: 'Success',
         text: 'Product created successfully',
@@ -108,7 +110,7 @@ export class ProductsFormComponent implements OnInit {
   }
 
   private _updatedProduct(productFormData: FormData) {
-    this.productsSvc.updateProduct(productFormData, this.currentProductId).subscribe(product => {
+    this.productsSvc.updateProduct(productFormData, this.currentProductId).pipe(takeUntil(this.endSubs$)).subscribe(product => {
 
       Swal.fire({
         title: 'Success',
@@ -139,7 +141,7 @@ export class ProductsFormComponent implements OnInit {
       if (res['id']) {
         this.editMode = true
         this.currentProductId = res['id']
-        this.productsSvc.getProduct(res['id']).subscribe(product => {
+        this.productsSvc.getProduct(res['id']).pipe(takeUntil(this.endSubs$)).subscribe(product => {
           this.productForm['name'].setValue(product['name']);
           this.productForm['brand'].setValue(product['brand']);
           this.productForm['price'].setValue(product['price']);
@@ -161,5 +163,10 @@ export class ProductsFormComponent implements OnInit {
 
   get productForm() {
     return this.form.controls
+  }
+
+  ngOnDestroy(): void {
+    this.endSubs$.next()
+    this.endSubs$.complete()
   }
 }
