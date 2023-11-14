@@ -29,7 +29,7 @@
               <tr>
                 <th scope="row">{{ i + 1}}</th>
                 <td>{{ product.name }}</td>
-                <td><img [src]="product.image" alt="image" style="width: 100%"> </td>
+                <td><img [src]="product.image" alt="image" style="width: 100px; height: 100px"> </td>
                 <td>{{ product.price | currency: 'USD' }}</td>
                 <td>{{ product.stock }}</td>
                 <td>{{ product.category?.name }}</td>

@@ -16,6 +16,7 @@ export class CategoriesFormComponent implements OnInit, OnDestroy {
   isSubmitted = false
   editMode = false
   currentCategoryId: string = ''
+  imageDisplay!: string | ArrayBuffer
   endSubs$ = new Subject<void>()
 
   constructor(private formBuilder: FormBuilder, private categoriesSvc: CategoriesService, private router: Router, private activatedRoute: ActivatedRoute) { }
@@ -23,7 +24,8 @@ export class CategoriesFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      icon: ['', Validators.required]
+      icon: ['', Validators.required],
+      image: ['', Validators.required],
     })
 
     this._checkEditMode()
@@ -34,18 +36,33 @@ export class CategoriesFormComponent implements OnInit, OnDestroy {
 
     if (!this.form.valid) return
 
-    const category: Category = {
-      _id: this.currentCategoryId,
-      name: this.form.controls['name'].value,
-      icon: this.form.controls['icon'].value,
-    }
+    const categoryFormData = new FormData()
+
+    Object.keys(this.categoryForm).map(key => {
+      categoryFormData.append(key, this.categoryForm[key].value)
+    })
 
     if (this.editMode) {
-      this._updateCategory(category)
+      this._updateCategory(categoryFormData)
     } else {
-      this._addCategory(category)
+      this._addCategory(categoryFormData)
 
     }
+  }
+
+  onImageUpload(event: any) {
+    const file = event.target?.files[0]
+
+    if (file) {
+      this.form.patchValue({ image: file })
+      this.form.get('image')?.updateValueAndValidity()
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        this.imageDisplay = fileReader.result!
+      }
+      fileReader.readAsDataURL(file)
+    }
+
   }
 
   private _checkEditMode() {
@@ -56,6 +73,9 @@ export class CategoriesFormComponent implements OnInit, OnDestroy {
         this.categoriesSvc.getCategory(res['id']).pipe(takeUntil(this.endSubs$)).subscribe(category => {
           this.categoryForm['name'].setValue(category['name']);
           this.categoryForm['icon'].setValue(category['icon']);
+          this.imageDisplay = category.image!;
+          this.categoryForm['image'].setValidators([])
+          this.categoryForm['image'].updateValueAndValidity()
         })
       } else {
         this.editMode = false
@@ -64,8 +84,8 @@ export class CategoriesFormComponent implements OnInit, OnDestroy {
     })
   }
 
-  private _addCategory(category: Category) {
-    this.categoriesSvc.createCategory(category).pipe(takeUntil(this.endSubs$)).subscribe(res => {
+  private _addCategory(categoryFormData: FormData) {
+    this.categoriesSvc.createCategory(categoryFormData).pipe(takeUntil(this.endSubs$)).subscribe(res => {
       Swal.fire({
         title: 'Success',
         text: 'Category created successfully',
@@ -89,8 +109,8 @@ export class CategoriesFormComponent implements OnInit, OnDestroy {
       })
   }
 
-  private _updateCategory(category: Category) {
-    this.categoriesSvc.updateCategory(category).pipe(takeUntil(this.endSubs$)).subscribe(res => {
+  private _updateCategory(categoryFormData: FormData) {
+    this.categoriesSvc.updateCategory(categoryFormData, this.currentCategoryId).pipe(takeUntil(this.endSubs$)).subscribe(res => {
       Swal.fire({
         title: 'Success',
         text: 'Category updated successfully',

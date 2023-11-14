@@ -1,4 +1,4 @@
-<div class="">
+<!-- <div class="">
   <div class="row">
     <div routerLink="/products/soap" class="col-md-4">
       <div class="card category-card">
@@ -16,4 +16,17 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+
+<section class="products-carousel section bg-green-light full-lg-screen">
+  <div class="container" *ngIf="categories">
+    <h2 class="text-center section-title">Productos</h2><br>
+    <div class="row">
+      <div *ngFor="let category of categories" class="col-md-4">
+        <div class="card category-card">
+          <img [src]="category.image" class="card-img-top" [alt]="category.name">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -18,6 +18,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
+                <th scope="col">Image</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -26,6 +27,7 @@
                 <th scope="row">{{ i + 1}}</th>
                 <td>{{ category._id }}</td>
                 <td>{{ category.name }}</td>
+                <td><img [src]="category.image" alt="image" style="width: 100px; height: 100px"> </td>
                 <td>
                   <button class="btn me-1 mb-1" (click)="updateCategory(category._id)">Edit</button>
                   <button class="btn mb-1" (click)="deleteCategory(category._id)">Del</button>

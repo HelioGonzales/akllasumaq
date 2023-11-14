@@ -9,6 +9,7 @@ import { HeaderModule } from './shared/modules/header/components/header/header.m
 import { FooterModule } from './shared/modules/footer/footer.module';
 import { LoginModule } from './shared/modules/login/login.module';
 import { JwtInterceptor } from './shared/services/jwt.interceptor';
+import { CategoriesService } from './shared/services/categories.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { JwtInterceptor } from './shared/services/jwt.interceptor';
     FooterModule,
     LoginModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, CategoriesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

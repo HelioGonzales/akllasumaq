@@ -5,6 +5,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { ProductsHomeComponent } from './products-home/products-home.component';
+import { ProductsModule } from '../products/products.module';
 
 const routes: Routes = [
   {

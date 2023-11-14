@@ -1,20 +1,10 @@
 <section class="products-carousel section bg-green-light full-lg-screen">
-  <div class="container">
+  <div class="container" *ngIf="categories">
     <h2 class="text-center section-title">Productos</h2><br>
     <div class="row">
-      <div class="col-md-4">
+      <div *ngFor="let category of categories" class="col-md-4">
         <div class="card category-card">
-          <img src="../../../../assets/images/soap.jpg" class="card-img-top" alt="Jabones">
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card category-card">
-          <img src="../../../../assets/images/aroma.jpg" class="card-img-top" alt="Aromas">
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card category-card">
-          <img src="../../../../assets/images/cream.jpg" class="card-img-top" alt="Creamas">
+          <img [src]="category.image" class="card-img-top" [alt]="category.name">
         </div>
       </div>
     </div>
