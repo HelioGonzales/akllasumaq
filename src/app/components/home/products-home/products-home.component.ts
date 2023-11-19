@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
 
@@ -8,18 +9,7 @@ import { CategoriesService } from 'src/app/shared/services/categories.service';
   styleUrls: ['./products-home.component.css']
 })
 export class ProductsHomeComponent {
-  categories: Category[] = []
 
-  constructor(private categoriesSvc: CategoriesService) { }
+  @Input() categories: Category[] = []
 
-  ngOnInit(): void {
-    this._getCategories()
-  }
-
-  private _getCategories() {
-    this.categoriesSvc.getCategories().subscribe(categories => {
-      console.log(categories);
-      this.categories = categories
-    })
-  }
 }

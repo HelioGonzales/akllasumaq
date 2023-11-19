@@ -11,20 +11,6 @@ const routes: Routes = [
   {
     path: "",
     component: ProductsComponent,
-    children: [
-      {
-        path: "",
-        component: ProductCategoriesComponent
-      },
-      {
-        path: "soap",
-        component: ProductListComponent,
-      },
-      {
-        path: "soap/description",
-        component: DescriptionComponent
-      }
-    ]
   },
 ]
 
@@ -36,7 +22,8 @@ const routes: Routes = [
     DescriptionComponent,
   ],
   imports: [
-    CommonModule, RouterModule.forChild(routes)
+    CommonModule,
+    RouterModule.forChild(routes)
   ],
   providers: [CategoriesService]
 

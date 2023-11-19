@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Product } from 'src/app/shared/models/product';
 
 @Component({
   selector: 'app-product-list',
@@ -7,10 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
-  constructor(private location: Location) { }
 
-  back() {
-    this.location.back()
-  }
+  @Input() products: Product[] = []
+
+  constructor(private location: Location) { }
 
 }

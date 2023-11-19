@@ -1,74 +1,12 @@
-<button (click)="back()" class="btn">Back</button>
-<div class="row">
-  <div class="col-md-4">
+<div class="row" *ngIf="products">
+  <div class="col-md-4" *ngFor="let product of products">
     <div class="card product-card">
-      <img src="../../../../assets/images/soap.jpg" class="card-img-top" alt="Cosmetic Product">
+      <img [src]="product.image" class="card-img-top" alt="Cosmetic Product">
       <div class="card-body">
-        <h5 class="card-title">Cosmetic Product Name</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <h5 class="card-title">{{product.name}}</h5>
+        <p class="card-text">{{product.description}}</p>
         <button routerLink="/products/soap/description" class="btn">Ver más</button>
+        <button routerLink="/" class="btn">Add to Cart</button>
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="card product-card">
-      <img src="../../../../assets/images/soap.jpg" class="card-img-top" alt="Cosmetic Product">
-      <div class="card-body">
-        <h5 class="card-title">Cosmetic Product Name</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <button routerLink="/products/soap/description" class="btn">Ver más</button>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card product-card">
-      <img src="../../../../assets/images/soap.jpg" class="card-img-top" alt="Cosmetic Product">
-      <div class="card-body">
-        <h5 class="card-title">Cosmetic Product Name</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <button routerLink="/products/soap/description" class="btn">Ver más</button>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card product-card">
-      <img src="../../../../assets/images/soap.jpg" class="card-img-top" alt="Cosmetic Product">
-      <div class="card-body">
-        <h5 class="card-title">Cosmetic Product Name</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <button routerLink="/products/soap/description" class="btn">Ver más</button>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card product-card">
-      <img src="../../../../assets/images/soap.jpg" class="card-img-top" alt="Cosmetic Product">
-      <div class="card-body">
-        <h5 class="card-title">Cosmetic Product Name</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <button routerLink="/products/soap/description" class="btn">Ver más</button>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card product-card">
-      <img src="../../../../assets/images/soap.jpg" class="card-img-top" alt="Cosmetic Product">
-      <div class="card-body">
-        <h5 class="card-title">Cosmetic Product Name</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <button routerLink="/products/soap/description" class="btn">Ver más</button>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card product-card">
-      <img src="../../../../assets/images/soap.jpg" class="card-img-top" alt="Cosmetic Product">
-      <div class="card-body">
-        <h5 class="card-title">Cosmetic Product Name</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <button routerLink="/products/soap/description" class="btn">Ver más</button>
-      </div>
-    </div>
-  </div>
-</div>
-<router-outlet></router-outlet>
