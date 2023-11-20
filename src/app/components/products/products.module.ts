@@ -6,6 +6,7 @@ import { ProductCategoriesComponent } from './product-categories/product-categor
 import { DescriptionComponent } from './description/description.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FormsModule
   ],
   providers: [CategoriesService]
 

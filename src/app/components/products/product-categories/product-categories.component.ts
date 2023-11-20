@@ -10,5 +10,5 @@ import { CategoriesService } from 'src/app/shared/services/categories.service';
 })
 export class ProductCategoriesComponent {
 
-  @Input() categories: Category[] = []
+  // @Input() categories: Category[] = []
 }

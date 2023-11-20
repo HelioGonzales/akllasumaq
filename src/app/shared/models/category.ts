@@ -4,4 +4,5 @@ export interface Category {
   icon?: string,
   color?: string
   image?: string,
+  checked?: boolean
 }

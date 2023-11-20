@@ -15,6 +15,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   categories: Category[] = []
   products: Product[] = []
   endSubs$ = new Subject<void>()
+  checked!: boolean
 
   constructor(private categoriesSvc: CategoriesService, private productsSvc: ProductsService) { }
 
@@ -29,10 +30,19 @@ export class ProductsComponent implements OnInit, OnDestroy {
     })
   }
 
-  private _getProducts() {
-    this.productsSvc.getProducts().pipe(takeUntil(this.endSubs$)).subscribe(products => {
+  private _getProducts(categoriesFilter?: string[]) {
+    this.productsSvc.getProducts(categoriesFilter).pipe(takeUntil(this.endSubs$)).subscribe(products => {
       this.products = products
     })
+  }
+
+  categoryFilter() {
+    const selectedCategories = this.categories.filter(category => category.checked).map(category => category._id)
+
+
+    this._getProducts(selectedCategories)
+
+
   }
 
   ngOnDestroy(): void {
