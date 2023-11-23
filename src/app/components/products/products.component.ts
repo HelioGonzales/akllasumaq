@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Category } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
@@ -17,11 +18,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
   endSubs$ = new Subject<void>()
   checked!: boolean
 
-  constructor(private categoriesSvc: CategoriesService, private productsSvc: ProductsService) { }
+  constructor(private categoriesSvc: CategoriesService, private productsSvc: ProductsService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(params => {
+      params['categoryid'] ? this._getProducts([params['categoryid']]) : this._getProducts()
+    })
+
     this._getCategories()
-    this._getProducts()
   }
 
   private _getCategories() {
