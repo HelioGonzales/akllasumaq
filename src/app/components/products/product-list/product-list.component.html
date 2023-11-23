@@ -1,11 +1,11 @@
 <div class="row" *ngIf="products">
   <div class="col-md-4" *ngFor="let product of products">
     <div class="card product-card">
-      <img [src]="product.image" class="card-img-top" alt="Cosmetic Product">
+      <img [routerLink]="'/products/'+product.id" [src]="product.image" class="card-img-top" alt="Cosmetic Product">
       <div class="card-body">
         <h5 class="card-title">{{product.name}}</h5>
         <p class="card-text">{{product.description}}</p>
-        <button routerLink="/products/soap/description" class="btn">Ver más</button>
+        <button [routerLink]="'/products/'+product.id" class="btn">Ver más</button>
         <button routerLink="/" class="btn">Add to Cart</button>
       </div>
     </div>

@@ -13,6 +13,10 @@ const routes: Routes = [
     path: "",
     component: ProductsComponent,
   },
+  {
+    path: ":productid",
+    component: DescriptionComponent
+  }
 ]
 
 @NgModule({
