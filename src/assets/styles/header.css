@@ -2,7 +2,17 @@
   position: sticky;
   top: 0;
   z-index: 999;
-  background-color: var(--second-color);
+  background-color: var(--green-light-color);
+}
+
+.navbar-brand:focus,
+.navbar-brand:hover {
+  color: var(--first-alpha-color);
+}
+
+.nav-link:focus,
+.nav-link:hover {
+  color: var(--first-alpha-color);
 }
 
 .logo {
@@ -13,9 +23,9 @@
   flex-grow: 2;
 }
 
-.logo:hover {
+/* .logo:hover {
   color: var(--black-color);
-}
+} */
 
 .menu {
   display: flex;
@@ -33,7 +43,7 @@
 }
 
 .menu li a:hover {
-  color: var(--black-color);
+  color: var(--first-alpha-color);
   background-color: var(--first-color);
 }
 

@@ -8,7 +8,7 @@
 }
 
 .btn {
-  background-color: var(--first-color);
+  background-color: var(--first-alpha-color);
   color: white;
   border: none;
   border-radius: 5px;
@@ -17,7 +17,7 @@
 }
 
 .btn:hover {
-  color: var(--black-color);
+  color: var(--first-color);
   background-color: var(--green-light-color);
 }
 
