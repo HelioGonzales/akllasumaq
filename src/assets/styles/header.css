@@ -23,10 +23,6 @@
   flex-grow: 2;
 }
 
-/* .logo:hover {
-  color: var(--black-color);
-} */
-
 .menu {
   display: flex;
   justify-content: space-between;
