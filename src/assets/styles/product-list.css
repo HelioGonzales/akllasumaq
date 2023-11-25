@@ -1,6 +1,7 @@
 /* Category */
 
 .bg-card {
+  padding: 1rem;
   background-color: var(--green-light-color);
 }
 

@@ -38,3 +38,8 @@
   margin: 10px 0;
 }
 /* / Description */
+
+.bg-description {
+  padding: 1rem;
+  background-color: var(--green-light-color);
+}

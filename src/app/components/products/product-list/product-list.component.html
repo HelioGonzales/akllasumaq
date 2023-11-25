@@ -1,6 +1,6 @@
-<div class="row bg-card" *ngIf="products">
+<div class="row" *ngIf="products">
   <div class="col-md-4" *ngFor="let product of products">
-    <div class="card product-card">
+    <div class="card product-card bg-card">
       <img [routerLink]="'/products/'+product.id" [src]="product.image" class="card-img-top" alt="Cosmetic Product">
       <div class="card-body">
         <h5 class="card-title">{{product.name}}</h5>
