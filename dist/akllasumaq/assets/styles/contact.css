@@ -1,0 +1,18 @@
+.contact {
+  display: flex;
+  justify-content: center; /* Horizontal centering */
+  align-items: center; /* Vertical centering */
+  padding-top: 3rem;
+}
+
+.contact > ul {
+  list-style-type: none;
+}
+
+.contact > ul > li {
+  margin-bottom: 1rem;
+}
+
+.contact > ul > li:last-child {
+  text-align: center;
+}
