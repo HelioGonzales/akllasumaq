@@ -2,7 +2,7 @@
   <div class="container">
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <a class="navbar-brand logo" routerLink="/">Akllasumaq</a>
+        <a class="navbar-brand logo-brand" routerLink="/">Akllasumaq</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -10,16 +10,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 menu">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" routerLink="/">Inicio</a>
+              <a class="nav-link" aria-current="page" routerLink="/" data-bs-toggle="collapse"
+                data-bs-target=".navbar-collapse.show">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/products">Productos</a>
+              <a class="nav-link" routerLink="/products" data-bs-toggle="collapse"
+                data-bs-target=".navbar-collapse.show">Productos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/about">Acerca de nosotros</a>
+              <a class="nav-link" routerLink="/about" data-bs-toggle="collapse"
+                data-bs-target=".navbar-collapse.show">Acerca de nosotros</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/contact">Contacto</a>
+              <a class="nav-link" routerLink="/contact" data-bs-toggle="collapse"
+                data-bs-target=".navbar-collapse.show">Contacto</a>
             </li>
           </ul>
         </div>
