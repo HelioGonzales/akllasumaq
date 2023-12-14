@@ -1,27 +1,36 @@
-<div class="admin-sidebar">
-  <div class="logo">
-    <img src="assets/images/logo.jpg" alt="">
+<button class="btn btn-primary d-lg-none ms-3" type="button" data-bs-toggle="offcanvas"
+  data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">Menu</button>
+
+
+<div class="offcanvas-lg offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasResponsive"
+  aria-labelledby="offcanvasResponsiveLabel">
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive"
+      aria-label="Close"></button>
   </div>
-  <div class="links">
-    <ul>
-      <li>
-        <a routerLink="/admin">Dashboard</a>
-      </li>
-      <li>
-        <a routerLink="/admin/products">Products</a>
-      </li>
-      <li>
-        <a routerLink="/admin/categories">Categories</a>
-      </li>
-      <li>
-        <a routerLink="/admin/orders">Orders</a>
-      </li>
-      <li>
-        <a routerLink="/admin/users">Users</a>
-      </li>
-      <li>
-        <a (click)="logoutUser()" class="logout">Logout</a>
-      </li>
-    </ul>
+  <div class="offcanvas-body">
+    <div class="links">
+      <ul>
+        <li>
+          <a routerLink="/admin" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive">Dashboard</a>
+        </li>
+        <li>
+          <a routerLink="/admin/products" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive">Products</a>
+        </li>
+        <li>
+          <a routerLink="/admin/categories" data-bs-dismiss="offcanvas"
+            data-bs-target="#offcanvasResponsive">Categories</a>
+        </li>
+        <li>
+          <a routerLink="/admin/orders" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive">Orders</a>
+        </li>
+        <li>
+          <a routerLink="/admin/users" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive">Users</a>
+        </li>
+        <li>
+          <a (click)="logoutUser()" class="logout">Logout</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
