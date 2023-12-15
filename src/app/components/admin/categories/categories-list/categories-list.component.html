@@ -11,11 +11,11 @@
       <hr>
       <hr>
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 table-responsive-md">
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
+                <!-- <th scope="col">#</th> -->
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Image</th>
@@ -25,7 +25,7 @@
             <tbody *ngFor="let category of categories; let i = index">
               <tr>
                 <th scope="row">{{ i + 1}}</th>
-                <td>{{ category._id }}</td>
+                <!-- <td>{{ category._id }}</td> -->
                 <td>{{ category.name }}</td>
                 <td><img [src]="category.image" alt="image" style="width: 100px; height: 100px"> </td>
                 <td>
