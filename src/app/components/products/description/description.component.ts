@@ -3,6 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/shared/models/product';
 import { ProductsService } from 'src/app/shared/services/products.service';
+import { CartService } from 'src/app/shared/services/cart.service';
+import { CartItem } from 'src/app/shared/models/cart';
 
 @Component({
   selector: 'app-description',
@@ -12,10 +14,10 @@ import { ProductsService } from 'src/app/shared/services/products.service';
 export class DescriptionComponent implements OnInit, OnDestroy {
   product!: Product
   productid!: string
-  quanity!: number
+  quanity = 1
   endSubs$ = new Subject<void>()
 
-  constructor(private activatedRoute: ActivatedRoute, private productsSvc: ProductsService) {
+  constructor(private activatedRoute: ActivatedRoute, private productsSvc: ProductsService, private cartSvc: CartService) {
 
   }
 
@@ -34,6 +36,15 @@ export class DescriptionComponent implements OnInit, OnDestroy {
     this.productsSvc.getProduct(id).pipe(takeUntil(this.endSubs$)).subscribe(product => {
       this.product = product
     })
+  }
+
+  addProductToCart() {
+    const cartItem: CartItem = {
+      productId: this.product.id,
+      quantity: this.quanity
+    }
+
+    this.cartSvc.setCartItems(cartItem)
   }
 
   ngOnDestroy(): void {

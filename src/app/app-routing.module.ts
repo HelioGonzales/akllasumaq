@@ -32,6 +32,10 @@ const routes: Routes = [
     loadChildren: () => import('./shared/modules/login/login.module').then(m => m.LoginModule)
   },
   {
+    path: 'cart-page',
+    loadChildren: () => import('./components/orders/orders.module').then(m => m.OrdersModule)
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
