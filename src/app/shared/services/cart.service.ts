@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CartItem, Cart } from '../models/cart';
 import { BehaviorSubject, Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 export const CART_KEY = "cart"
 
@@ -43,8 +44,22 @@ export class CartService {
           item.quantity = item.quantity! + cartItem.quantity!
         }
       })
+      Swal.fire({
+        title: 'Success',
+        text: 'Product successfully added to cart',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 3000,
+      })
     } else {
       cart.items?.push(cartItem)
+      Swal.fire({
+        title: 'Success',
+        text: 'Product successfully added to cart',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 3000,
+      })
     }
 
     const cartJson = JSON.stringify(cart)
