@@ -6,28 +6,35 @@
           <div class="card-body">
             <a (click)="backToShop()" class="btn btn-primary mb-3"><i class="bi bi-arrow-left"></i> Volver a la
               lista</a>
-            <h5 class="card-title">Carrito: 3 items</h5>
+            <h5 class="card-title">Carrito: {{ cartCount }} items</h5>
             <p class="card-text">Envio despues del pago, tiempo de entrega: 1 a 4 dias habiles.</p>
           </div>
-          <div class="card ms-3 mb-3 me-3 card-footer" style="max-width: 100%;">
+          <div class="card ms-3 mb-3 me-3 card-footer" *ngFor="let cartItem of cartItemsDetailed"
+            style="max-width: 100%;">
             <div class="row g-0">
               <div class="col-md-4">
-                <img src="..." class="img-fluid rounded-start" alt="...">
+                <img [src]="cartItem.product?.image" class="img-fluid rounded-start"
+                  style="width: 100px; height: 100px;" [attr.alt]="cartItem.product?.name">
               </div>
               <div class="col-md-4">
                 <div class="card-body">
-                  <h5 class="card-title">Product name</h5>
-                  <p class="card-text">$ 30,00</p>
-                  <a><i class="bi bi-trash"></i></a>
+                  <h5 class="card-title">{{ cartItem.product?.name }}</h5>
+                  <p class="card-text">{{ cartItem.product?.price | currency: 'PEN'}}</p>
+                  <a (click)="deleteCartItem(cartItem)"><i class="bi bi-trash"></i></a>
                 </div>
               </div>
               <div class="col-md-4">
-                <input [(ngModel)]="quanity" id="productQuantity" type="number" class="form-control" min="1" max="100">
-                <label for="productQuantity" class="form-label">Subtotal: 12</label>
+                <input [(ngModel)]="cartItem.quantity" id="productQuantity" type="number" class="form-control" min="1"
+                  max="100">
+                <label for="productQuantity" class="form-label">Subtotal: {{ calculateSubTotalPrice(cartItem) | currency
+                  }}</label>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="col-md-4">
+        SUMMERY
       </div>
     </div>
   </div>
