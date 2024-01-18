@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject, take, takeUntil } from 'rxjs';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { OrdersService } from 'src/app/shared/services/orders.service';
@@ -14,13 +15,15 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
   endSubs$: Subject<void> = new Subject()
   totalPrice!: number
 
-  constructor(private cartSvc: CartService, private productSvc: ProductsService) { }
+  constructor(private cartSvc: CartService, private productSvc: ProductsService, private router: Router) { }
 
   ngOnInit(): void {
     this._getOrderSummary()
   }
 
-
+  goToCheckout() {
+    this.router.navigate(['cart-page/checkout'])
+  }
 
   private _getOrderSummary() {
     this.cartSvc.cart$.pipe(takeUntil(this.endSubs$)).subscribe(cart => {

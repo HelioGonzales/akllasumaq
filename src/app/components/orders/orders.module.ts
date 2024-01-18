@@ -5,12 +5,17 @@ import { CartPageComponent } from './cart-page/cart-page.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: CartPageComponent
+    component: CartPageComponent,
+  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent
   }
 ]
 
@@ -18,11 +23,12 @@ const routes: Routes = [
   declarations: [
     CartIconComponent,
     CartPageComponent,
-    OrderSummaryComponent
+    OrderSummaryComponent,
+    CheckoutComponent
   ],
   imports: [
     CommonModule, RouterModule.forChild(routes), FormsModule
   ],
-  exports: [CartIconComponent, CartPageComponent]
+  exports: [CartIconComponent, CartPageComponent, RouterModule]
 })
 export class OrdersModule { }

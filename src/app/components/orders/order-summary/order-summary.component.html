@@ -13,6 +13,6 @@
       <span class="card-text"><b>Total Price</b></span>
       <span class="card-text"><b>{{ totalPrice | currency: 'PEN'}}</b></span>
     </div>
-    <a class="btn btn-primary d-block mt-3">Checkout</a>
+    <a (click)="goToCheckout()" class="btn btn-primary d-block mt-3">Checkout</a>
   </div>
 </div>
