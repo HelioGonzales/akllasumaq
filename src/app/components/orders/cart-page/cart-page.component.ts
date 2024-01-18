@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { CartItemDetailed } from 'src/app/shared/models/cart';
+import { CartItem, CartItemDetailed } from 'src/app/shared/models/cart';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import Swal from 'sweetalert2';
@@ -50,6 +50,13 @@ export class CartPageComponent implements OnInit, OnDestroy {
 
   calculateSubTotalPrice(item: any): number {
     return (item.product?.price || 0) * (item.quantity || 0);
+  }
+
+  updateCartItemQuantity(event: any, cartItem: CartItemDetailed) {
+    this.cartSvc.setCartItems({
+      productId: cartItem.product?.id,
+      quantity: event.target?.value
+    }, true)
   }
 
   private _getCartDetails() {

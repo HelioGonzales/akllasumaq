@@ -34,22 +34,27 @@ export class CartService {
     return cart
   }
 
-  setCartItems(cartItem: CartItem): Cart {
+  setCartItems(cartItem: CartItem, updateCartItem?: boolean): Cart {
     const cart = this.getCart()
     const cartItemExist = cart.items?.find((item) => item.productId === cartItem.productId)
 
     if (cartItemExist) {
       cart.items?.map(item => {
         if (item.productId === cartItem.productId) {
-          item.quantity = item.quantity! + cartItem.quantity!
+          if (updateCartItem) {
+            item.quantity = cartItem.quantity!
+          } else {
+            item.quantity = item.quantity! + cartItem.quantity!
+          }
         }
       })
+
       Swal.fire({
         title: 'Success',
         text: 'Product successfully added to cart',
         icon: 'success',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 1000,
       })
     } else {
       cart.items?.push(cartItem)
@@ -58,7 +63,7 @@ export class CartService {
         text: 'Product successfully added to cart',
         icon: 'success',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 1000,
       })
     }
 
