@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, take, takeUntil } from 'rxjs';
 import { CartService } from 'src/app/shared/services/cart.service';
-import { OrdersService } from 'src/app/shared/services/orders.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 
 @Component({
@@ -14,11 +13,15 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
 
   endSubs$: Subject<void> = new Subject()
   totalPrice!: number
+  isCheckout = false
 
-  constructor(private cartSvc: CartService, private productSvc: ProductsService, private router: Router) { }
+  constructor(private cartSvc: CartService, private productSvc: ProductsService, private router: Router) {
+    this.router.url.includes('checkout') ? this.isCheckout = true : this.isCheckout = false
+  }
 
   ngOnInit(): void {
     this._getOrderSummary()
+
   }
 
   goToCheckout() {

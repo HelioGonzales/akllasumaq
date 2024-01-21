@@ -1,1 +1,90 @@
-<p>checkout works!</p>
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <a (click)="backToShop()" class="btn btn-primary mb-3"><i class="bi bi-arrow-left"></i> Volver a la
+              lista</a>
+          </div>
+          <div class="card ms-3 mb-3 me-3 card-footer">
+            <form [formGroup]="form" class="row g-3">
+              <div class="col-md-6">
+                <label for="checkoutInputEmail4" class="form-label">Name</label>
+                <input formControlName="name" type="text" class="form-control" id="checkoutInputEmail4" required>
+
+                <div *ngIf="userForm['name'].invalid && isSubmitted" class="text-danger">
+                  Name is required.
+                </div>
+
+              </div>
+              <div class="col-md-6">
+                <label for="checkoutinputPassword4" class="form-label">Email</label>
+                <input formControlName="email" type="text" class="form-control" id="checkoutinputPassword4" required>
+
+                <div *ngIf="userForm['email'].invalid && isSubmitted" class="text-danger">
+                  <span *ngIf="userForm['email'].errors?.['required']">Email is required.</span>
+                  <span *ngIf="userForm['email'].errors?.['email']">Email is invalid.</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="checkoutinputPassword5" class="form-label">Password</label>
+                <input formControlName="password" type="password" class="form-control" id="checkoutinputPassword5"
+                  required>
+
+                <div *ngIf="userForm['password'].invalid && isSubmitted" class="text-danger">
+                  Password is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="checkoutinputPassword6" class="form-label">Phone</label>
+                <input formControlName="phone" type="text" class="form-control" id="checkoutinputPassword6" required="">
+
+                <div *ngIf="userForm['phone'].invalid && isSubmitted" class="text-danger">
+                  Phone is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="checkoutinputPassword7" class="form-label">Street</label>
+                <input formControlName="street" type="text" class="form-control" id="checkoutinputPassword7" required>
+
+                <div *ngIf="userForm['street'].invalid && isSubmitted" class="text-danger">
+                  Street is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="checkoutinputPassword8" class="form-label">Apartment</label>
+                <input formControlName="apartment" type="text" class="form-control" id="checkoutinputPassword8"
+                  required="">
+
+                <div *ngIf="userForm['apartment'].invalid && isSubmitted" class="text-danger">
+                  Apartment is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="checkoutinputPassword9" class="form-label">Zip Code</label>
+                <input formControlName="zip" type="text" class="form-control" id="checkoutinputPassword9" required>
+
+                <div *ngIf="userForm['zip'].invalid && isSubmitted" class="text-danger">
+                  Zip Code is required.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="checkoutinputPassword10" class="form-label">City</label>
+                <input formControlName="city" type="text" class="form-control" id="checkoutinputPassword10" required>
+
+                <div *ngIf="userForm['city'].invalid && isSubmitted" class="text-danger">
+                  City is required.
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <app-order-summary></app-order-summary>
+        <a (click)="placeOrder()" class="btn btn-primary mt-3 d-block" style="width: 18rem;">Place the order</a>
+      </div>
+    </div>
+  </div>
+</div>
