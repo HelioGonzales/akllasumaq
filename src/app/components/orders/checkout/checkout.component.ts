@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { Cart } from 'src/app/shared/models/cart';
+import { Order } from 'src/app/shared/models/order';
+import { OrderItem } from 'src/app/shared/models/order-item';
 import { User } from 'src/app/shared/models/user';
+import { CartService } from 'src/app/shared/services/cart.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import Swal from 'sweetalert2';
 
@@ -12,46 +16,19 @@ import Swal from 'sweetalert2';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  editMode = false
   isSubmitted = false
+  orderItems: OrderItem[] = []
+  userId = '65aecf73a35929cff523215b'
   form!: FormGroup
-  currentUserId: string = ''
   endSubs$ = new Subject<void>()
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private usersSvc: UsersService) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private cartSrv: CartService) {
 
   }
 
   ngOnInit(): void {
     this._initForm()
-    this._checkEditMode()
-
-  }
-
-  onSubmit() {
-    this.isSubmitted = true
-
-    if (!this.form.valid) return
-
-    const user: User = {
-      _id: this.currentUserId,
-      name: this.form.controls['name'].value,
-      email: this.form.controls['email'].value,
-      phone: this.form.controls['phone'].value,
-      isAdmin: this.form.controls['isAdmin'].value,
-      street: this.form.controls['street'].value,
-      apartment: this.form.controls['apartment'].value,
-      zip: this.form.controls['zip'].value,
-      city: this.form.controls['city'].value,
-      // country: this.form.controls['country'].value,
-    }
-
-    if (this.editMode) {
-      this._updateUser(user)
-    } else {
-      this._addUser(user)
-
-    }
+    this._getCartItems()
   }
 
   placeOrder() {
@@ -61,7 +38,24 @@ export class CheckoutComponent implements OnInit {
       return
     }
 
-    console.log(this.form.value);
+    const order: Order = {
+      orderItems: this.orderItems,
+      shippingAddress1: this.checkoutForm['shippingAddress1'].value,
+      shippingAddress2: this.checkoutForm['shippingAddress2'].value,
+      city: this.checkoutForm['city'].value,
+      country: this.checkoutForm['country'].value,
+      zip: this.checkoutForm['zip'].value,
+      phone: this.checkoutForm['phone'].value,
+      status: this.checkoutForm['status'].value,
+      totalPrice: this.checkoutForm['totalPrice'].value,
+      user: this.userId,
+      dateOrdered: `${Date.now()}`
+    }
+
+
+
+
+    console.log(order);
 
   }
 
@@ -78,81 +72,100 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
-  private _checkEditMode() {
-    this.activatedRoute.params.subscribe((res) => {
-      if (res['id']) {
-        this.editMode = true
-        this.currentUserId = res['id']
-        this.usersSvc.getUser(res['id']).subscribe(user => {
-          this.userForm['name'].setValue(user['name']);
-          this.userForm['email'].setValue(user['email']);
-          this.userForm['isAdmin'].setValue(user['isAdmin']);
-          this.userForm['street'].setValue(user['street']);
-          this.userForm['apartment'].setValue(user['apartment']);
-          this.userForm['zip'].setValue(user['zip']);
-          this.userForm['city'].setValue(user['city']);
-          this.userForm['password'].setValidators([]);
-          this.userForm['password'].updateValueAndValidity()
+  private _getCartItems() {
+    const cart: Cart = this.cartSrv.getCart()
 
-        })
-      } else {
-        this.editMode = false
-      }
-
-    })
-  }
-
-  private _addUser(user: User) {
-    this.usersSvc.createUser(user).pipe(takeUntil(this.endSubs$)).subscribe(res => {
-      Swal.fire({
-        title: 'Success',
-        text: 'User created successfully',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 3000,
-      }).then(() => {
-        this.router.navigate(['/admin/users'])
-      });
-    },
-      error => {
-        Swal.fire({
-          title: 'Error',
-          text: 'Failed to create user',
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 3000,
-        })
-
-        this.form.reset()
+    if (cart.items) {
+      this.orderItems = cart.items?.map(item => {
+        return {
+          product: item.productId,
+          quantity: item.quantity
+        }
       })
+    } else {
+      this.orderItems = []
+    }
+
+    console.log(this.orderItems);
+
+
   }
 
-  private _updateUser(user: User) {
-    this.usersSvc.updateUser(user).pipe(takeUntil(this.endSubs$)).subscribe(res => {
-      Swal.fire({
-        title: 'Success',
-        text: 'User updated successfully',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 3000,
-      }).then(() => {
-        this.router.navigate(['/admin/users'])
-      });
-    },
-      error => {
-        Swal.fire({
-          title: 'Error',
-          text: 'Failed to update user',
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 3000,
-        })
+  // private _checkEditMode() {
+  //   this.activatedRoute.params.subscribe((res) => {
+  //     if (res['id']) {
+  //       this.editMode = true
+  //       this.currentUserId = res['id']
+  //       this.usersSvc.getUser(res['id']).subscribe(user => {
+  //         this.userForm['name'].setValue(user['name']);
+  //         this.userForm['email'].setValue(user['email']);
+  //         this.userForm['isAdmin'].setValue(user['isAdmin']);
+  //         this.userForm['street'].setValue(user['street']);
+  //         this.userForm['apartment'].setValue(user['apartment']);
+  //         this.userForm['zip'].setValue(user['zip']);
+  //         this.userForm['city'].setValue(user['city']);
+  //         this.userForm['password'].setValidators([]);
+  //         this.userForm['password'].updateValueAndValidity()
 
-        this.form.reset()
-      })
-  }
+  //       })
+  //     } else {
+  //       this.editMode = false
+  //     }
 
-  get userForm() {
+  //   })
+  // }
+
+  // private _addUser(user: User) {
+  //   this.usersSvc.createUser(user).pipe(takeUntil(this.endSubs$)).subscribe(res => {
+  //     Swal.fire({
+  //       title: 'Success',
+  //       text: 'User created successfully',
+  //       icon: 'success',
+  //       showConfirmButton: false,
+  //       timer: 3000,
+  //     }).then(() => {
+  //       this.router.navigate(['/admin/users'])
+  //     });
+  //   },
+  //     error => {
+  //       Swal.fire({
+  //         title: 'Error',
+  //         text: 'Failed to create user',
+  //         icon: 'error',
+  //         showConfirmButton: false,
+  //         timer: 3000,
+  //       })
+
+  //       this.form.reset()
+  //     })
+  // }
+
+  // private _updateUser(user: User) {
+  //   this.usersSvc.updateUser(user).pipe(takeUntil(this.endSubs$)).subscribe(res => {
+  //     Swal.fire({
+  //       title: 'Success',
+  //       text: 'User updated successfully',
+  //       icon: 'success',
+  //       showConfirmButton: false,
+  //       timer: 3000,
+  //     }).then(() => {
+  //       this.router.navigate(['/admin/users'])
+  //     });
+  //   },
+  //     error => {
+  //       Swal.fire({
+  //         title: 'Error',
+  //         text: 'Failed to update user',
+  //         icon: 'error',
+  //         showConfirmButton: false,
+  //         timer: 3000,
+  //       })
+
+  //       this.form.reset()
+  //     })
+  // }
+
+  get checkoutForm() {
     return this.form.controls
   }
 
