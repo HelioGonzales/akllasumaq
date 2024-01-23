@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { ThankYouComponent } from './thank-you/thank-you.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'checkout',
     component: CheckoutComponent
+  },
+  {
+    path: 'thank-you',
+    component: ThankYouComponent
   }
 ]
 
@@ -24,7 +29,8 @@ const routes: Routes = [
     CartIconComponent,
     CartPageComponent,
     OrderSummaryComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    ThankYouComponent
   ],
   imports: [
     CommonModule, RouterModule.forChild(routes), FormsModule, ReactiveFormsModule

@@ -1,6 +1,7 @@
 import { Product } from "./product";
 
 export interface OrderItem {
-  product?: string,
+  // product: Product,
+  product?: any,
   quantity?: number
 }

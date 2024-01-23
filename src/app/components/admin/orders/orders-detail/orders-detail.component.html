@@ -74,11 +74,11 @@
                     <tbody>
                       <tr *ngFor="let item of orderDetails.orderItems; let i = index">
                         <th scope="row">{{i+1}}</th>
-                        <td>{{item.product?.name}}</td>
-                        <td>{{item.product?.brand}}</td>
-                        <td>{{item.product?.category?.name}}</td>
-                        <td>{{item.product?.price | currency }}</td>
-                        <td>{{item.quantity }}</td>
+                        <td>{{item?.product?.name}}</td>
+                        <td>{{item?.product?.brand}}</td>
+                        <td>{{item?.product?.category?.name}}</td>
+                        <td>{{item?.product?.price | currency }}</td>
+                        <td>{{item?.quantity }}</td>
                         <td>
                           {{ calculateTotalPrice(item) | currency }}
                         </td>

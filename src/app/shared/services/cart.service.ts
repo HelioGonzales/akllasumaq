@@ -86,4 +86,14 @@ export class CartService {
 
     this.cart$.next(cart)
   }
+
+  empyCart() {
+    const initialCart = {
+      items: []
+    }
+
+    const initialCartJson = JSON.stringify(initialCart)
+    localStorage.setItem(CART_KEY, initialCartJson)
+    this.cart$.next(initialCart)
+  }
 }

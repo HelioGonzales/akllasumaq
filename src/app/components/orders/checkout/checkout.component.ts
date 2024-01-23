@@ -6,7 +6,9 @@ import { Cart } from 'src/app/shared/models/cart';
 import { Order } from 'src/app/shared/models/order';
 import { OrderItem } from 'src/app/shared/models/order-item';
 import { User } from 'src/app/shared/models/user';
+import { ORDER_STATUS } from 'src/app/shared/order.constants';
 import { CartService } from 'src/app/shared/services/cart.service';
+import { OrdersService } from 'src/app/shared/services/orders.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import Swal from 'sweetalert2';
 
@@ -22,7 +24,7 @@ export class CheckoutComponent implements OnInit {
   form!: FormGroup
   endSubs$ = new Subject<void>()
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private cartSrv: CartService) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private cartSrv: CartService, private orderSvc: OrdersService) {
 
   }
 
@@ -40,35 +42,40 @@ export class CheckoutComponent implements OnInit {
 
     const order: Order = {
       orderItems: this.orderItems,
-      shippingAddress1: this.checkoutForm['shippingAddress1'].value,
-      shippingAddress2: this.checkoutForm['shippingAddress2'].value,
+      shippingAddress1: this.checkoutForm['street'].value,
+      shippingAddress2: this.checkoutForm['apartment'].value,
       city: this.checkoutForm['city'].value,
-      country: this.checkoutForm['country'].value,
+      // country: this.checkoutForm['country'].value,
+      country: "",
       zip: this.checkoutForm['zip'].value,
       phone: this.checkoutForm['phone'].value,
-      status: this.checkoutForm['status'].value,
-      totalPrice: this.checkoutForm['totalPrice'].value,
+      status: 0,
       user: this.userId,
       dateOrdered: `${Date.now()}`
     }
 
+    this.orderSvc.createOrder(order).subscribe(() => {
+      // Redirect to thank you page // payment page
+
+      this.cartSrv.empyCart()
+
+      this.router.navigate(['cart-page/thank-you'])
 
 
-
-    console.log(order);
+    })
 
   }
 
   private _initForm() {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      phone: ['', Validators.required],
-      street: ['', Validators.required],
-      apartment: ['', Validators.required],
-      zip: ['', Validators.required],
-      city: ['', Validators.required],
+      name: ['Helio', Validators.required],
+      email: ['helio@gmail.com', [Validators.required, Validators.email]],
+      password: ['123456', Validators.required],
+      phone: ['9508231', Validators.required],
+      street: ['San Antonio A-8', Validators.required],
+      apartment: ['4', Validators.required],
+      zip: ['11-110', Validators.required],
+      city: ['Ica', Validators.required],
     })
   }
 
@@ -79,7 +86,7 @@ export class CheckoutComponent implements OnInit {
       this.orderItems = cart.items?.map(item => {
         return {
           product: item.productId,
-          quantity: item.quantity
+          quantity: Number(item.quantity)
         }
       })
     } else {
