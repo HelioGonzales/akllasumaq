@@ -24,13 +24,13 @@
             <div class="row">
               <div class="col-md-4">
                 <label for="productQuantity" class="form-label">Quantity</label>
-                <input [(ngModel)]="quanity" id="productQuantity" type="number" class="form-control" min="0" max="100">
+                <input [(ngModel)]="quanity" id="productQuantity" type="number" class="form-control" min="1" max="100">
               </div>
             </div>
           </div>
           <div class="col-md-12">
             <button class="btn me-2">Buy now</button>
-            <button (click)="addToCart()" class="btn">Add to cart</button>
+            <button (click)="addProductToCart()" class="btn">Add to cart</button>
           </div>
         </div>
       </div>

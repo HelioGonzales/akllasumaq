@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CheckoutComponent } from './components/orders/checkout/checkout.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,14 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./shared/modules/login/login.module').then(m => m.LoginModule)
   },
+  {
+    path: 'cart-page',
+    loadChildren: () => import('./components/orders/orders.module').then(m => m.OrdersModule)
+  },
+  // {
+  //   path: 'checkout',
+  //   component: CheckoutComponent
+  // },
   {
     path: '**',
     redirectTo: '',

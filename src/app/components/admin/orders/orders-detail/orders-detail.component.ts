@@ -34,8 +34,8 @@ export class OrdersDetailComponent implements OnInit, OnDestroy {
     this.ordersSvc.getOrder(orderId).pipe(takeUntil(this.endSubs$)).subscribe(orderDetails => {
       this.orderDetails = orderDetails
       this.statusChanged = this.orderDetails.status
-      console.log(this.statusChanged);
-      console.log(this.orderDetails.status);
+      console.log(this.orderDetails);
+
 
 
 

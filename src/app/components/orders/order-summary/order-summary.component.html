@@ -1,0 +1,18 @@
+<div class="card mt-md-0 mt-sm-3" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Order Summary</h5>
+    <div class="d-flex justify-content-md-between">
+      <span class="card-text">Items Price</span>
+      <span class="card-text">{{ totalPrice | currency: 'PEN'}}</span>
+    </div>
+    <div class="d-flex justify-content-md-between">
+      <span class="card-text">Packing and Shipping</span>
+      <span class="card-text">Free</span>
+    </div>
+    <div class="d-flex justify-content-md-between">
+      <span class="card-text"><b>Total Price</b></span>
+      <span class="card-text"><b>{{ totalPrice | currency: 'PEN'}}</b></span>
+    </div>
+    <a (click)="goToCheckout()" class="btn btn-primary d-block mt-3" *ngIf="!isCheckout">Checkout</a>
+  </div>
+</div>

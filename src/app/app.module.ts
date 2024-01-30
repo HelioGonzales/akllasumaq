@@ -7,10 +7,10 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { HeaderModule } from './shared/modules/header/components/header/header.module';
+import { JwtInterceptor } from './shared/services/jwt.interceptor';
 import { FooterModule } from './shared/modules/footer/footer.module';
 import { LoginModule } from './shared/modules/login/login.module';
-import { JwtInterceptor } from './shared/services/jwt.interceptor';
-import { CategoriesService } from './shared/services/categories.service';
+import { CartService } from './shared/services/cart.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,11 @@ import { CategoriesService } from './shared/services/categories.service';
     FooterModule,
     LoginModule
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, CategoriesService],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(cartSvc: CartService) {
+    cartSvc.initCartLocalStorage()
+  }
+}
