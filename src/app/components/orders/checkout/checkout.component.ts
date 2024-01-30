@@ -70,7 +70,7 @@ export class CheckoutComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: ['Helio', Validators.required],
       email: ['helio@gmail.com', [Validators.required, Validators.email]],
-      password: ['123456', Validators.required],
+      // password: ['123456', Validators.required],
       phone: ['9508231', Validators.required],
       street: ['San Antonio A-8', Validators.required],
       apartment: ['4', Validators.required],

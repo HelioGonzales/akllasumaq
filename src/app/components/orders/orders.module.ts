@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ThankYouComponent } from './thank-you/thank-you.component';
+import { authGuard } from 'src/app/shared/services/auth-guard.guard';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'checkout',
+    canActivate: [authGuard],
     component: CheckoutComponent
   },
   {

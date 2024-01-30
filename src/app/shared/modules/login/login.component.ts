@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.authSvc.login(this.loginForm['email'].value, this.loginForm['passwordHash'].value).subscribe(user => {
       this.authError = false
       this.localStorageSvc.setToken(user.token)
-      this.router.navigateByUrl('admin')
+      this.router.navigateByUrl('/')
 
     }, (err: HttpErrorResponse) => {
       console.log(err);
