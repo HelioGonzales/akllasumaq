@@ -20,7 +20,7 @@ import Swal from 'sweetalert2';
 export class CheckoutComponent implements OnInit {
   isSubmitted = false
   orderItems: OrderItem[] = []
-  userId = '65aecf73a35929cff523215b'
+  // userId = ''
   form!: FormGroup
   endSubs$ = new Subject<void>()
 
@@ -50,7 +50,7 @@ export class CheckoutComponent implements OnInit {
       zip: this.checkoutForm['zip'].value,
       phone: this.checkoutForm['phone'].value,
       status: 0,
-      user: this.userId,
+      user: this.checkoutForm['name'].value,
       dateOrdered: `${Date.now()}`
     }
 
@@ -97,80 +97,6 @@ export class CheckoutComponent implements OnInit {
 
 
   }
-
-  // private _checkEditMode() {
-  //   this.activatedRoute.params.subscribe((res) => {
-  //     if (res['id']) {
-  //       this.editMode = true
-  //       this.currentUserId = res['id']
-  //       this.usersSvc.getUser(res['id']).subscribe(user => {
-  //         this.userForm['name'].setValue(user['name']);
-  //         this.userForm['email'].setValue(user['email']);
-  //         this.userForm['isAdmin'].setValue(user['isAdmin']);
-  //         this.userForm['street'].setValue(user['street']);
-  //         this.userForm['apartment'].setValue(user['apartment']);
-  //         this.userForm['zip'].setValue(user['zip']);
-  //         this.userForm['city'].setValue(user['city']);
-  //         this.userForm['password'].setValidators([]);
-  //         this.userForm['password'].updateValueAndValidity()
-
-  //       })
-  //     } else {
-  //       this.editMode = false
-  //     }
-
-  //   })
-  // }
-
-  // private _addUser(user: User) {
-  //   this.usersSvc.createUser(user).pipe(takeUntil(this.endSubs$)).subscribe(res => {
-  //     Swal.fire({
-  //       title: 'Success',
-  //       text: 'User created successfully',
-  //       icon: 'success',
-  //       showConfirmButton: false,
-  //       timer: 3000,
-  //     }).then(() => {
-  //       this.router.navigate(['/admin/users'])
-  //     });
-  //   },
-  //     error => {
-  //       Swal.fire({
-  //         title: 'Error',
-  //         text: 'Failed to create user',
-  //         icon: 'error',
-  //         showConfirmButton: false,
-  //         timer: 3000,
-  //       })
-
-  //       this.form.reset()
-  //     })
-  // }
-
-  // private _updateUser(user: User) {
-  //   this.usersSvc.updateUser(user).pipe(takeUntil(this.endSubs$)).subscribe(res => {
-  //     Swal.fire({
-  //       title: 'Success',
-  //       text: 'User updated successfully',
-  //       icon: 'success',
-  //       showConfirmButton: false,
-  //       timer: 3000,
-  //     }).then(() => {
-  //       this.router.navigate(['/admin/users'])
-  //     });
-  //   },
-  //     error => {
-  //       Swal.fire({
-  //         title: 'Error',
-  //         text: 'Failed to update user',
-  //         icon: 'error',
-  //         showConfirmButton: false,
-  //         timer: 3000,
-  //       })
-
-  //       this.form.reset()
-  //     })
-  // }
 
   get checkoutForm() {
     return this.form.controls
