@@ -40,30 +40,34 @@ export class CheckoutComponent implements OnInit {
       return
     }
 
-    const order: Order = {
-      orderItems: this.orderItems,
-      shippingAddress1: this.checkoutForm['street'].value,
-      shippingAddress2: this.checkoutForm['apartment'].value,
-      city: this.checkoutForm['city'].value,
-      // country: this.checkoutForm['country'].value,
-      country: "",
-      zip: this.checkoutForm['zip'].value,
-      phone: this.checkoutForm['phone'].value,
-      status: 0,
-      user: this.checkoutForm['name'].value,
-      dateOrdered: `${Date.now()}`
-    }
+    // const order: Order = {
+    //   orderItems: this.orderItems,
+    //   shippingAddress1: this.checkoutForm['street'].value,
+    //   shippingAddress2: this.checkoutForm['apartment'].value,
+    //   city: this.checkoutForm['city'].value,
+    //   // country: this.checkoutForm['country'].value,
+    //   country: "",
+    //   zip: this.checkoutForm['zip'].value,
+    //   phone: this.checkoutForm['phone'].value,
+    //   status: 0,
+    //   user: this.checkoutForm['name'].value,
+    //   dateOrdered: `${Date.now()}`
+    // }
 
-    this.orderSvc.createOrder(order).subscribe(() => {
-      // Redirect to thank you page // payment page
+    // this.orderSvc.createOrder(order).subscribe(() => {
+    //   // Redirect to thank you page // payment page
 
-      this.cartSrv.empyCart()
+    //   this.cartSrv.empyCart()
 
-      this.router.navigate(['cart-page/thank-you'])
+    //   this.router.navigate(['cart-page/thank-you'])
 
+
+    // })
+
+    this.orderSvc.createCheckoutSession(this.orderItems).subscribe(session => {
+      console.log(session);
 
     })
-
   }
 
   private _initForm() {

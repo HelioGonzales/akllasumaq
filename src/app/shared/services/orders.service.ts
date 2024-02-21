@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { Order } from '../models/order';
+import { OrderItem } from '../models/order-item';
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,9 @@ export class OrdersService {
 
   getTotalSales(): Observable<any> {
     return this.http.get<any>(`${this.apiURLOrders}orders/get/totalsales`)
+  }
+
+  createCheckoutSession(orderItem: OrderItem[]) {
+    return this.http.post(`${this.apiURLOrders}orders/create-checkout-session`, orderItem)
   }
 }
