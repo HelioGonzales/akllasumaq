@@ -11,6 +11,7 @@ import { CartService } from 'src/app/shared/services/cart.service';
 import { OrdersService } from 'src/app/shared/services/orders.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import Swal from 'sweetalert2';
+import { StripeService } from 'ngx-stripe'
 
 @Component({
   selector: 'app-checkout',
@@ -24,7 +25,7 @@ export class CheckoutComponent implements OnInit {
   form!: FormGroup
   endSubs$ = new Subject<void>()
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private cartSrv: CartService, private orderSvc: OrdersService) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private cartSrv: CartService, private orderSvc: OrdersService, private stripeSvc: StripeService) {
 
   }
 
@@ -40,32 +41,28 @@ export class CheckoutComponent implements OnInit {
       return
     }
 
-    // const order: Order = {
-    //   orderItems: this.orderItems,
-    //   shippingAddress1: this.checkoutForm['street'].value,
-    //   shippingAddress2: this.checkoutForm['apartment'].value,
-    //   city: this.checkoutForm['city'].value,
-    //   // country: this.checkoutForm['country'].value,
-    //   country: "",
-    //   zip: this.checkoutForm['zip'].value,
-    //   phone: this.checkoutForm['phone'].value,
-    //   status: 0,
-    //   user: this.checkoutForm['name'].value,
-    //   dateOrdered: `${Date.now()}`
-    // }
-
-    // this.orderSvc.createOrder(order).subscribe(() => {
-    //   // Redirect to thank you page // payment page
-
-    //   this.cartSrv.empyCart()
-
-    //   this.router.navigate(['cart-page/thank-you'])
+    const order: Order = {
+      orderItems: this.orderItems,
+      shippingAddress1: this.checkoutForm['street'].value,
+      shippingAddress2: this.checkoutForm['apartment'].value,
+      city: this.checkoutForm['city'].value,
+      // country: this.checkoutForm['country'].value,
+      country: "",
+      zip: this.checkoutForm['zip'].value,
+      phone: this.checkoutForm['phone'].value,
+      status: 0,
+      user: this.checkoutForm['name'].value,
+      dateOrdered: `${Date.now()}`
+    }
 
 
-    // })
+    this.orderSvc.cacheOrderData(order)
 
-    this.orderSvc.createCheckoutSession(this.orderItems).subscribe(session => {
-      console.log(session);
+    this.orderSvc.createCheckoutSession(this.orderItems).subscribe(error => {
+      if (error) {
+        console.log('Error in redirect to payment');
+
+      }
 
     })
   }

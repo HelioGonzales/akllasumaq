@@ -1,19 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { Order } from '../models/order';
 import { OrderItem } from '../models/order-item';
+import { StripeService } from 'ngx-stripe'
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
-
-
   apiURLOrders = environment.api
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private stripeSvc: StripeService, private router: Router) { }
 
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.apiURLOrders}orders`)
@@ -45,5 +46,21 @@ export class OrdersService {
 
   createCheckoutSession(orderItem: OrderItem[]) {
     return this.http.post(`${this.apiURLOrders}orders/create-checkout-session`, orderItem)
+      .pipe(switchMap((session: { id?: string }) => {
+        return this.stripeSvc.redirectToCheckout({ sessionId: session.id! })
+
+      }))
+  }
+
+  cacheOrderData(order: Order) {
+    localStorage.setItem('orderData', JSON.stringify(order))
+  }
+
+  getCacheOrderData(): Order {
+    return JSON.parse(localStorage.getItem('orderData') || '{}')
+  }
+
+  removeCacheOrderData() {
+    localStorage.removeItem('orderData')
   }
 }
