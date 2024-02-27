@@ -11,6 +11,7 @@ import { JwtInterceptor } from './shared/services/jwt.interceptor';
 import { FooterModule } from './shared/modules/footer/footer.module';
 import { LoginModule } from './shared/modules/login/login.module';
 import { CartService } from './shared/services/cart.service';
+import { NgxStripeModule } from 'ngx-stripe';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CartService } from './shared/services/cart.service';
     HttpClientModule,
     HeaderModule,
     FooterModule,
-    LoginModule
+    LoginModule,
+    NgxStripeModule.forRoot('pk_test_51OmLekBbaf2Jg1z4pFhcuQIum2u4K57XWoD9qFtx5PXswRiZAt3o9PTtJR3GZBREyrnhprByBdCbpDub0loZWXAo00XoLiKlDl')
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
